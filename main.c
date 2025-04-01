@@ -2,40 +2,84 @@
 #include "lib/heap.h"
 #include "lib/matrix.h"
 
-int main() {
-    int n = 4;  // # genes
-    int w = 2;  // Window size
+void printCluster(GeneCluster *cluster) {
+    if (!cluster) {
+        printf("[EMPTY Cluster]\n");
+        return;
+    }
+    printf("LD Score: %.2f | Genes: ", cluster->ld_score);
+    for (int i = 0; i < cluster->size; i++) {
+        printf("%d ", cluster->genes[i]);
+    }
+    printf("\n");
+}
 
-    // Creates the LD scores matrix
+int main() {
+    int n = 4;
+    int w = 2;
+
+    // Create the LD scores matrix
     double **matrix = createMatrix(n);
 
-    // Placeholder values for LD scores
-    matrix[0][0] = 1; matrix[0][1] = 0.2; matrix[0][2] = 0.5; matrix[0][3] = 0.8;
-    matrix[1][0] = 0.2; matrix[1][1] = 1; matrix[1][2] = 0.1; matrix[1][3] = 0.4;
-    matrix[2][0] = 0.5; matrix[2][1] = 0.1; matrix[2][2] = 1; matrix[2][3] = 0.3;
-    matrix[3][0] = 0.8; matrix[3][1] = 0.4; matrix[3][2] = 0.3; matrix[3][3] = 1;
+    // Placeholder values (testing purposes)
+    matrix[0][0] = 1.0;  matrix[0][1] = 0.4;  matrix[0][2] = 0.2;  matrix[0][3] = 0.3;
+    matrix[1][0] = 0.4;  matrix[1][1] = 1.0;  matrix[1][2] = 0.5;  matrix[1][3] = 0.3;
+    matrix[2][0] = 0.2;  matrix[2][1] = 0.5;  matrix[2][2] = 1.0;  matrix[2][3] = 0.1;
+    matrix[3][0] = 0.3;  matrix[3][1] = 0.3;  matrix[3][2] = 0.1;  matrix[3][3] = 1.0;
 
-    // Print the LD scores matrix
-    printf("Matrice LD Scores:\n");
+
+    printf("LD Matrix Scores:\n");
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            printf("%.2f ", matrix[i][j]);
+            printf("%.2f | ", matrix[i][j]);
         }
+        // printf("\n----------------------------- ^ row %i", i);
         printf("\n");
     }
 
-    // Create the heap and load data into it
+    // Create the heap
     MinHeap *heap = createMinHeap(n * w);
-    loadHeapFromMatrix(heap, matrix, n, w);
 
-    // Extract and print the first 3 minimum elements
-    printf("\nEstrazione dalla Min Heap:\n");
-    for (int i = 0; i < 3 && heap->size > 0; i++) {
-        GenePair min = extractMin(heap);
-        printf("Min estratto: (%d, %d) con score %.2f\n", min.gene1, min.gene2, min.ld_score);
+    // Inserts intial clusters (pair of genes)
+    printf("\nGenes clusters inserted into the Min-Heap structure:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n && j - i <= w; j++) {
+            int *genes = (int*)malloc(2 * sizeof(int));
+            genes[0] = i + 1;
+            genes[1] = j + 1;
+
+            GeneCluster *cluster = createCluster(genes, 2, matrix[i][j]);
+            insertMinHeap(heap, cluster);
+            printCluster(cluster);
+        }
     }
 
-    // Free allocated memory
+    // Extraction and merge
+    printf("\nExtraction and merge:\n");
+    GeneCluster *c1 = extractMin(heap);
+    // GeneCluster *c2 = extractMin(heap);
+    // GeneCluster *c3 = extractMin(heap);
+    // GeneCluster *c4 = extractMin(heap);
+
+    printf("Root->");
+    printCluster(c1);
+
+
+
+    /*
+    *
+    *   DEV NOTE: Why the root is always the second smallest element instead of the smallest?
+    *   TO BE FIXED 
+    * 
+    */
+
+    // Final state of the Heap
+    printf("\nFinal state of the Heap:\n");
+    for (int i = 0; i < heap->size; i++) {
+        printCluster(heap->data[i]);
+    }
+
+    // Free up memory
     freeMatrix(matrix, n);
     freeHeap(heap);
 
