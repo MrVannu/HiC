@@ -11,8 +11,12 @@ void printCluster(GeneCluster *cluster) {
     for (int i = 0; i < cluster->size; i++) {
         printf("%d ", cluster->genes[i]);
     }
+    printf(" -- %p ", cluster->prev);
+    printf(" -- %p ", cluster->next);
     printf("\n");
 }
+
+
 
 int main() {
     int n = 4;
@@ -42,6 +46,7 @@ int main() {
 
     // Inserts intial clusters (pair of genes)
     printf("\nGenes clusters inserted into the Min-Heap structure:\n");
+    GeneCluster *prevCluster = NULL;  // Track previous cluster
     for (int i = 0; i < n; i++) {
         for (int j = i + 1; j < n && j - i <= w; j++) {
             int *genes = (int*)malloc(2 * sizeof(int));
@@ -49,10 +54,19 @@ int main() {
             genes[1] = j + 1;
 
             GeneCluster *cluster = createCluster(genes, 2, matrix[i][j]);
+
+            // Link clusters in a separate linked list
+            if (prevCluster) {
+                prevCluster->next = cluster;  // Set next pointer
+                cluster->prev = prevCluster;  // Set prev pointer
+            }
+            prevCluster = cluster;  // Move the tracker
+
             insertMinHeap(heap, cluster);
             printCluster(cluster);
         }
     }
+
 
     // Extraction and merge
     printf("\nExtraction and merge:\n");
