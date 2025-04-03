@@ -62,8 +62,6 @@ void insertMinHeap(MinHeap *heap, GeneCluster *cluster) {
     heap->size++;
 }
 
-
-
 // Heapify Down
 void heapifyDown(MinHeap *heap, int index) {
     int left = 2 * index + 1;

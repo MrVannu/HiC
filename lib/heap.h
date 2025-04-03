@@ -20,6 +20,7 @@ typedef struct {
     int capacity;
 } MinHeap;
 
+
 MinHeap* createMinHeap(int capacity);
 void insertMinHeap(MinHeap *heap, GeneCluster *cluster);
 GeneCluster* extractMin(MinHeap *heap);
