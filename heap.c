@@ -1,6 +1,10 @@
 #include "lib/heap.h"
 
-// Create a new cluster
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
 GeneCluster* createCluster(int *genes, int size, double ld_score) {
     GeneCluster *cluster = (GeneCluster*)malloc(sizeof(GeneCluster));
     cluster->genes = (int*)malloc(size * sizeof(int));
@@ -14,7 +18,6 @@ GeneCluster* createCluster(int *genes, int size, double ld_score) {
     return cluster;
 }
 
-// Merge two clusters
 GeneCluster* mergeClusters(GeneCluster *c1, GeneCluster *c2, double new_score) {
     int new_size = c1->size + c2->size;
     int *new_genes = (int*)malloc(new_size * sizeof(int));
@@ -25,13 +28,18 @@ GeneCluster* mergeClusters(GeneCluster *c1, GeneCluster *c2, double new_score) {
         new_genes[c1->size + i] = c2->genes[i];
 
     GeneCluster *new_cluster = createCluster(new_genes, new_size, new_score);
-    new_cluster->prev = c1;
-    new_cluster->next = c2;
+    new_cluster->prev = c1->prev;
+    new_cluster->next = c2->next;
+
+    if (c1->prev) c1->prev->next = new_cluster;
+    if (c2->next) c2->next->prev = new_cluster;
+
+    free(c1->genes); free(c2->genes);
+    free(c1); free(c2);
 
     return new_cluster;
 }
 
-// Create the Min Heap
 MinHeap* createMinHeap(int capacity) {
     MinHeap *heap = (MinHeap*)malloc(sizeof(MinHeap));
     heap->data = (GeneCluster**)malloc(capacity * sizeof(GeneCluster*));
@@ -40,7 +48,6 @@ MinHeap* createMinHeap(int capacity) {
     return heap;
 }
 
-// Heapify Up
 void heapifyUp(MinHeap *heap, int index) {
     int parent = (index - 1) / 2;
     while (index > 0 && heap->data[index]->ld_score < heap->data[parent]->ld_score) {
@@ -51,10 +58,9 @@ void heapifyUp(MinHeap *heap, int index) {
     }
 }
 
-// Inserts a cluster into the Heap
 void insertMinHeap(MinHeap *heap, GeneCluster *cluster) {
     if (heap->size >= heap->capacity) {
-        printf("Heap piena!\n");
+        printf("Heap full!\n");
         return;
     }
     heap->data[heap->size] = cluster;
@@ -62,7 +68,6 @@ void insertMinHeap(MinHeap *heap, GeneCluster *cluster) {
     heap->size++;
 }
 
-// Heapify Down
 void heapifyDown(MinHeap *heap, int index) {
     int left = 2 * index + 1;
     int right = 2 * index + 2;
@@ -70,7 +75,6 @@ void heapifyDown(MinHeap *heap, int index) {
 
     if (left < heap->size && heap->data[left]->ld_score < heap->data[smallest]->ld_score)
         smallest = left;
-
     if (right < heap->size && heap->data[right]->ld_score < heap->data[smallest]->ld_score)
         smallest = right;
 
@@ -82,22 +86,20 @@ void heapifyDown(MinHeap *heap, int index) {
     }
 }
 
-// Extracts the min LD-score cluster
 GeneCluster* extractMin(MinHeap *heap) {
     if (heap->size <= 0) {
         printf("EMPTY Heap!\n");
         return NULL;
     }
-    
-    heapifyDown(heap, 0);
+
     GeneCluster *min = heap->data[0];
     heap->data[0] = heap->data[heap->size - 1];
     heap->size--;
+    heapifyDown(heap, 0);
 
     return min;
 }
 
-// Free up Heap memory
 void freeHeap(MinHeap *heap) {
     for (int i = 0; i < heap->size; i++) {
         free(heap->data[i]->genes);
@@ -106,3 +108,4 @@ void freeHeap(MinHeap *heap) {
     free(heap->data);
     free(heap);
 }
+
