@@ -1,8 +1,6 @@
-#include "lib/heap.h"
-
-
 #include <stdio.h>
 #include <stdlib.h>
+#include "lib/heap.h"
 
 
 GeneCluster* createCluster(int *genes, int size, double ld_score) {
@@ -108,4 +106,3 @@ void freeHeap(MinHeap *heap) {
     free(heap->data);
     free(heap);
 }
-
