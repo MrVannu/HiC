@@ -3,6 +3,11 @@ import random
 from deap import base, creator, tools, algorithms
 import matplotlib.pyplot as plt
 
+
+RANDOM_SEED = 121
+random.seed(RANDOM_SEED)
+np.random.seed(RANDOM_SEED)
+
 INITIAL_POPULATION_SIZE = 200
 MUTATION_PROBABILITY = 0.2
 TOURNAMENT_SIZE = 3
