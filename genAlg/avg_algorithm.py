@@ -17,6 +17,8 @@ input_matrix = [
     [2, 7, 8]
 ]
 
+#input_matrix = np.loadtxt("similarity_matrix.csv", delimiter=",")
+
 ordered_matrix, original_index = sort_avg(input_matrix)
 
 print("Output Matrix:")

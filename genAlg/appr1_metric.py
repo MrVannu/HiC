@@ -16,4 +16,13 @@ pairs = list(itertools.product(A, B))
 total = sum(input_matrix[a][b] for a, b in pairs)
 average = total / len(pairs)
 
+
+####### TEST ######
+print("Pairs computed:", pairs)  
+for a, b in pairs:
+    print(f"({a}, {b}) -> {input_matrix[a][b]}")
+a = len(pairs)
+###################
+
+print(f"Pairs found: {a}")
 print(f"Metric output is: {average}")
