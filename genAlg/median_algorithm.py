@@ -17,6 +17,8 @@ input_matrix = [
     [2, 7, 8]
 ]
 
+#input_matrix = np.loadtxt("similarity_matrix.csv", delimiter=",")
+
 ordered_matrix, ordered_indices = sort_median(input_matrix)
 
 print("Ordered matrix:")
