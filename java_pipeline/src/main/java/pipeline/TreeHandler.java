@@ -44,37 +44,29 @@ public class TreeHandler extends CartesianMatrixEvaluator {
 
 
     public static Set<String> extractSetOfLeaves(TreeNode root) {
-    if (root == null) {
-        System.out.println("Root is null, cannot extract leaves.");
-        return null;
+        if (root == null) {
+            System.out.println("Root is null, cannot extract leaves.");
+            return null;
+        }
+
+        Set<String> leaves = new HashSet<>();
+        collectLeaves(root, leaves);
+
+        System.out.println("Leaves: " + leaves);
+        return leaves;
     }
-
-    Set<String> leaves = new HashSet<>();
-    collectLeaves(root, leaves);
-
-    System.out.println("Leaves: " + leaves);
-    return leaves;
-}
 
     // Helper method to collect leaves from the tree
     private static void collectLeaves(TreeNode node, Set<String> leaves) {
         if (node == null) return;
 
         // If no children, it's a leaf
-        if (node.left == null && node.right == null) {
-            leaves.add(node.label);
-        } else {
+        if (node.left == null && node.right == null) leaves.add(node.label);
+        else {
             collectLeaves(node.left, leaves);
             collectLeaves(node.right, leaves);
         }
     }
-
-
-
-
-
-
-
    
 
 }

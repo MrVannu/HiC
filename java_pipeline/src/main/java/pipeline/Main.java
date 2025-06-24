@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Main extends TreeHandler {
 
-     public static void main(String[] args) {
+    public static void main(String[] args) {
         
         String filePath = "java/res/_clusters.tsv";
         int[][] linkage = Utils.readAdjClustResults(filePath); // Reads the clustering results from a file

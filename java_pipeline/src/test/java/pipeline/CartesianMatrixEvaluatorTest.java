@@ -32,11 +32,12 @@ public class CartesianMatrixEvaluatorTest {
         List<CartesianMatrixEvaluator.Pair<Integer, Integer>> coords = Arrays.asList(
             new CartesianMatrixEvaluator.Pair<>(1, 1), // matrix[0][0] = 1
             new CartesianMatrixEvaluator.Pair<>(1, 2), // matrix[0][1] = 2
+            new CartesianMatrixEvaluator.Pair<>(2, 1),  // matrix[1][0] = 3
             new CartesianMatrixEvaluator.Pair<>(2, 2)  // matrix[1][1] = 4
         );
 
         double avg = CartesianMatrixEvaluator.averageOverMatrix(coords, matrix);
-        assertEquals((1 + 2 + 4) / 3.0, avg);
+        assertEquals((1 + 2 + 3 + 4) / 4.0, avg);
     }
 
     @Test
