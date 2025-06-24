@@ -1,0 +1,9 @@
+pipeline/TreeNode.class
+pipeline/TreeHandler.class
+pipeline/shuffling/MedShuffling.class
+pipeline/CartesianMatrixEvaluator$Pair.class
+pipeline/shuffling/AvgShuffling.class
+pipeline/Main.class
+pipeline/CartesianMatrixEvaluator.class
+pipeline/shuffling/GeneticShuffling.class
+pipeline/Utils.class
