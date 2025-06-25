@@ -7,10 +7,13 @@ public class Main extends TreeHandler {
 
     public static void main(String[] args) {
         
-        String filePath = "java/res/_clusters.tsv";
+        String filePath = "java_pipeline/res/_clusters.tsv";
         int[][] linkage = Utils.readAdjClustResults(filePath); // Reads the clustering results from a file
 
         TreeNode root = buildAndPrintTree(linkage); // Builds the tree from the linkage matrix and prints it
+        //System.out.println("Root node: " + root.label);
+        //System.out.println("LEFT node: " + root.left.label);
+        //System.out.println("RIGHT node: " + root.right.label);
         Set<String> left_leaves_string = extractSetOfLeaves(root.left); // Extracts the leaves of the left subtree
         Set<String> right_leaves_string = extractSetOfLeaves(root.right);
 
@@ -33,5 +36,30 @@ public class Main extends TreeHandler {
     }
 
     
+
+
+
+    // TO BE TESTES YET - JUST A PROTOTYPE!! 
+    public static double sumAverageOverTree(TreeNode node, int[][] matrix) {
+        if (node == null || node.left == null || node.right == null) return 0.0;
+
+        Set<String> leftLeavesStr = extractSetOfLeaves(node.left);
+        Set<String> rightLeavesStr = extractSetOfLeaves(node.right);
+
+        Set<Integer> leftLeaves = Utils.convertLeafLabelsToInts(leftLeavesStr);
+        Set<Integer> rightLeaves = Utils.convertLeafLabelsToInts(rightLeavesStr);
+
+        List<Pair<Integer, Integer>> product = cartesianProduct(leftLeaves, rightLeaves);
+        double avg = averageOverMatrix(product, matrix);
+
+        double leftSum = sumAverageOverTree(node.left, matrix);
+        double rightSum = sumAverageOverTree(node.right, matrix);
+
+        return avg + leftSum + rightSum;
+    }
+
     
 }
+
+
+
