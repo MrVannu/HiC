@@ -26,7 +26,7 @@ public class TreeHandlerTest {
     public void testExtractLeafIds_returnsAllLeafIds() {
         TreeNode pt1 = new TreeNode("pt1", 1);
         TreeNode pt2 = new TreeNode("pt2", 2);
-        TreeNode cluster1 = new TreeNode("C1");
+        TreeNode cluster1 = new TreeNode("C1",3);
         cluster1.left = pt1;
         cluster1.right = pt2;
 

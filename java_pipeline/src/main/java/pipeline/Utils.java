@@ -60,7 +60,12 @@ public class Utils {
 
     
 
-    
+    public static int getTreeDepth(TreeNode node) {
+        if (node == null) return 0;
+        if(node.isLeaf()) return 1;
+        
+        return 1 + Math.max(getTreeDepth(node.left), getTreeDepth(node.right));
+    }
 }
 
 
