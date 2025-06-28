@@ -14,11 +14,6 @@ public class Main extends TreeHandler {
         //System.out.println("Root node: " + root.label);
         //System.out.println("LEFT node: " + root.left.label);
         //System.out.println("RIGHT node: " + root.right.label);
-        Set<String> left_leaves_string = extractSetOfLeaves(root.left); // Extracts the leaves of the left subtree
-        Set<String> right_leaves_string = extractSetOfLeaves(root.right);
-
-        Set<Integer> left_leaves = Utils.convertLeafLabelsToInts(left_leaves_string);
-        Set<Integer> right_leaves = Utils.convertLeafLabelsToInts(right_leaves_string);
 
 
         int[][] matrix = {
@@ -27,33 +22,24 @@ public class Main extends TreeHandler {
             {4, 5, 6, 9, 2}
         };
 
-        List<Pair<Integer, Integer>> product = cartesianProduct(left_leaves, right_leaves);
-        System.out.println("Cartesian product: " + product);
-
-        double avg = averageOverMatrix(product, matrix);
+        
+        double avg = metricOverTree(root, matrix);
         System.out.println("Average matrix value over product: " + avg);
 
     }
 
     
-
-
-
-    // TO BE TESTES YET - JUST A PROTOTYPE!! 
-    public static double sumAverageOverTree(TreeNode node, int[][] matrix) {
+    public static double metricOverTree(TreeNode node, int[][] matrix) {
         if (node == null || node.left == null || node.right == null) return 0.0;
 
-        Set<String> leftLeavesStr = extractSetOfLeaves(node.left);
-        Set<String> rightLeavesStr = extractSetOfLeaves(node.right);
-
-        Set<Integer> leftLeaves = Utils.convertLeafLabelsToInts(leftLeavesStr);
-        Set<Integer> rightLeaves = Utils.convertLeafLabelsToInts(rightLeavesStr);
+        Set<Integer> leftLeaves = extractSetOfLeaves(node.left);
+        Set<Integer> rightLeaves = extractSetOfLeaves(node.right);
 
         List<Pair<Integer, Integer>> product = cartesianProduct(leftLeaves, rightLeaves);
         double avg = averageOverMatrix(product, matrix);
 
-        double leftSum = sumAverageOverTree(node.left, matrix);
-        double rightSum = sumAverageOverTree(node.right, matrix);
+        double leftSum = metricOverTree(node.left, matrix);
+        double rightSum = metricOverTree(node.right, matrix);
 
         return avg + leftSum + rightSum;
     }

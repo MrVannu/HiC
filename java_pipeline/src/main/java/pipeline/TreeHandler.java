@@ -22,8 +22,14 @@ public class TreeHandler extends CartesianMatrixEvaluator {
             int leftId = row[1];
             int rightId = row[2];
 
-            TreeNode left = (leftId < 0) ? new TreeNode("pt"+(-leftId)) : nodeMap.get(leftId);
-            TreeNode right = (rightId < 0) ? new TreeNode("pt"+(-rightId)) : nodeMap.get(rightId);
+            TreeNode left = (leftId < 0) 
+                ? new TreeNode("pt" + (-leftId), -leftId) 
+                : nodeMap.get(leftId);  
+                
+            TreeNode right = (rightId < 0) 
+                ? new TreeNode("pt" + (-rightId), -rightId) 
+                : nodeMap.get(rightId);
+
 
             TreeNode parent = new TreeNode("C" + clusterId);
             parent.left = left;
@@ -43,13 +49,13 @@ public class TreeHandler extends CartesianMatrixEvaluator {
     }
 
 
-    public static Set<String> extractSetOfLeaves(TreeNode root) {
+    public static Set<Integer> extractSetOfLeaves(TreeNode root) {
         if (root == null) {
             System.out.println("Root is null, cannot extract leaves.");
             return null;
         }
 
-        Set<String> leaves = new HashSet<>();
+        Set<Integer> leaves = new HashSet<>();
         collectLeaves(root, leaves);
 
         System.out.println("Leaves: " + leaves);
@@ -57,11 +63,11 @@ public class TreeHandler extends CartesianMatrixEvaluator {
     }
 
     // Helper method to collect leaves from the tree
-    private static void collectLeaves(TreeNode node, Set<String> leaves) {
+    private static void collectLeaves(TreeNode node, Set<Integer> leaves) {
         if (node == null) return;
 
         // If no children, it's a leaf
-        if (node.left == null && node.right == null) leaves.add(node.label);
+        if (node.left == null && node.right == null) leaves.add(node.leafId);
         else {
             collectLeaves(node.left, leaves);
             collectLeaves(node.right, leaves);
