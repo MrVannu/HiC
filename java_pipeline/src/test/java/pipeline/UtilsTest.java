@@ -8,24 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class UtilsTest {
 
-    @Test
-    public void testConvertLeafLabelsToInts_validLabels() {
-        Set<String> input = new HashSet<>(Arrays.asList("A1", "B2", "C-3"));
-        Set<Integer> result = Utils.convertLeafLabelsToInts(input);
-
-        assertTrue(result.contains(1));
-        assertTrue(result.contains(2));
-        assertTrue(result.contains(-3));
-        assertEquals(3, result.size());
-    }
-
-    @Test
-    public void testConvertLeafLabelsToInts_invalidLabels() {
-        Set<String> input = new HashSet<>(Arrays.asList("abc", "xyz!@", "no-digits"));
-        Set<Integer> result = Utils.convertLeafLabelsToInts(input);
-        assertTrue(result.isEmpty());
-    }
-
+   
     @Test
     public void testReadAdjClustResults() throws IOException {
         File tempFile = File.createTempFile("test-clusters", ".txt");

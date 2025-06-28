@@ -3,10 +3,8 @@ package pipeline;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 
 
@@ -60,19 +58,7 @@ public class Utils {
     }
 
 
-    public static Set<Integer> convertLeafLabelsToInts(Set<String> leaves) {
-        Set<Integer> result = new HashSet<>();
-        for (String label : leaves) {
-            try {
-                // Extract only digits (optionally with minus sign)
-                String digits = label.replaceAll("[^\\d-]", "");
-                result.add(Integer.parseInt(digits));
-            } catch (NumberFormatException e) {
-                System.err.println("Could not convert label to integer: " + label);
-            }
-        }
-        return result;
-    }
+    
 
     
 }

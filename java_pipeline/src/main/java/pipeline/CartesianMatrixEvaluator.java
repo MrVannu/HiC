@@ -69,7 +69,8 @@ public class CartesianMatrixEvaluator {
         }
 
         //System.out.println("Sum: " + sum + ", Count: " + count + ", and rows: " + matrix.length + " and cols :" + matrix[0].length);
-        System.out.println("Sum: " + sum + ", Count: " + count);
+        System.out.println("Sum: " + sum + ", Leaves count: " + count);
+        System.out.println("---------------------------------");
         return count > 0 ? (double) sum / count : 0.0;
     }
 
