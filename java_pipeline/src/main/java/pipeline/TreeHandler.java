@@ -10,43 +10,54 @@ public class TreeHandler extends CartesianMatrixEvaluator {
      * 
      **/
     public static TreeNode buildAndPrintTree(int[][] linkage) {
-        if (linkage == null || linkage.length == 0) {
-            System.out.println("Linkage dataset was empty.");
-            return null;
-        }
-
-        Map<Integer, TreeNode> nodeMap = new HashMap<>();
-        // Construct the tree from the linkage matrix
-        for (int[] row : linkage) {
-            int clusterId = row[0];
-            int leftId = row[1];
-            int rightId = row[2];
-
-            TreeNode left = (leftId < 0) 
-                ? new TreeNode("pt" + (-leftId), -leftId) 
-                : nodeMap.get(leftId);  
-                
-            TreeNode right = (rightId < 0) 
-                ? new TreeNode("pt" + (-rightId), -rightId) 
-                : nodeMap.get(rightId);
-
-
-            TreeNode parent = new TreeNode("C" + clusterId);
-            parent.left = left;
-            parent.right = right;
-
-            nodeMap.put(clusterId, parent);
-        }
-
-        // Root is last cluster in the linkage matrix
-        TreeNode root = nodeMap.get(linkage[linkage.length - 1][0]);
-
-        
-        System.out.println("Tree:");
-        Utils.printTree(root, "", true);
-
-        return root;
+    if (linkage == null || linkage.length == 0) {
+        System.out.println("Linkage dataset was empty.");
+        return null;
     }
+
+    Map<Integer, TreeNode> nodeMap = new HashMap<>();
+
+    // Track the next available unique leafId
+    int maxId = 0;
+
+    // Step 1: Scan for max point ID (negative indices mean leaf points)
+    for (int[] row : linkage) {
+        int leftId = row[1];
+        int rightId = row[2];
+        maxId = Math.max(maxId, Math.max(-leftId, -rightId));
+    }
+
+    int nextLeafId = maxId + 1; // Start assigning new IDs after the last leaf
+
+    // Step 2: Build tree
+    for (int[] row : linkage) {
+        int clusterId = row[0];
+        int leftId = row[1];
+        int rightId = row[2];
+
+        TreeNode left = (leftId < 0)
+            ? new TreeNode("pt" + (-leftId), -leftId)
+            : nodeMap.get(leftId);
+
+        TreeNode right = (rightId < 0)
+            ? new TreeNode("pt" + (-rightId), -rightId)
+            : nodeMap.get(rightId);
+
+        TreeNode parent = new TreeNode("C" + clusterId, nextLeafId++);
+        parent.left = left;
+        parent.right = right;
+
+        nodeMap.put(clusterId, parent);
+    }
+
+    // Root is last cluster in the linkage matrix
+    TreeNode root = nodeMap.get(linkage[linkage.length - 1][0]);
+
+    System.out.println("Tree:");
+    Utils.printTree(root, "", true);
+
+    return root;
+}
 
 
     public static Set<Integer> extractSetOfLeaves(TreeNode root) {

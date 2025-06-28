@@ -69,10 +69,38 @@ public class CartesianMatrixEvaluator {
         }
 
         //System.out.println("Sum: " + sum + ", Count: " + count + ", and rows: " + matrix.length + " and cols :" + matrix[0].length);
-        System.out.println("Sum: " + sum + ", Leaves count: " + count);
+        System.out.println("Sum: " + sum + ", #Candidate pairs: " + count);
         System.out.println("---------------------------------");
         return count > 0 ? (double) sum / count : 0.0;
     }
 
+
+    /**
+     * Computes the average of the matrix values at each coordinate in the Cartesian product.
+     */
+    public static double sumOverMatrix(List<Pair<Integer, Integer>> coordinates, int[][] matrix) {
+        if (coordinates.isEmpty()) return 0.0;
+
+        int sum = 0;
+        int count = 0;
+
+        for (Pair<Integer, Integer> pair : coordinates) {
+            int x = pair.first;
+            int y = pair.second;
+            //System.out.println("Candidate pair:" + x + ", " + y);
+
+            // Check bounds
+            if (x >= 0 && x <= matrix.length && y >= 0 && y <= matrix[0].length) {
+                sum += matrix[x-1][y-1]; // Adjust for 1-based indexing
+                //System.out.println("Adding value: " + matrix[x-1][y-1]);
+                count++;
+            }
+        }
+
+        //System.out.println("Sum: " + sum + ", Count: " + count + ", and rows: " + matrix.length + " and cols :" + matrix[0].length);
+        System.out.println("Sum: " + sum + ", Leaves count: " + count);
+        System.out.println("---------------------------------");
+        return sum;
+    }
 
 }

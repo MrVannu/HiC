@@ -30,10 +30,10 @@ public class UtilsTest {
 
     @Test
     public void testPrintTree() {
-        TreeNode root = new TreeNode("root");
-        root.left = new TreeNode("left");
-        root.right = new TreeNode("right");
-        root.left.left = new TreeNode("left.left");
+        TreeNode root = new TreeNode("root",1);
+        root.left = new TreeNode("left",2);
+        root.right = new TreeNode("right",3);
+        root.left.left = new TreeNode("left.left",4);
 
         // Capture printed output
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -49,5 +49,29 @@ public class UtilsTest {
 
         // Restore standard output
         System.setOut(System.out);
+    }
+
+
+
+    @Test
+    public void testNullTree() {
+        assertEquals(0, Utils.getTreeDepth(null));
+    }
+
+    @Test
+    public void testSingleNodeTree() {
+        TreeNode root = new TreeNode(null,1);
+        assertEquals(1, Utils.getTreeDepth(root));
+    }
+
+
+    @Test
+    public void testUnbalancedTree() {
+        TreeNode node = new TreeNode("root", 1);
+        node.left = new TreeNode("left", 2);
+        node.left.left = new TreeNode("left.left", 3);
+        node.right = new TreeNode("right", 4);
+        
+        assertEquals(3, Utils.getTreeDepth(node));
     }
 }

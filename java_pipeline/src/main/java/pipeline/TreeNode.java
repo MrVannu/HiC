@@ -6,9 +6,7 @@ public class TreeNode {
     TreeNode right;
     Integer leafId;
 
-    TreeNode(String label) {
-        this.label = label;
-    }
+    
 
     TreeNode(String label, int leafId) {
         this.label = label;
