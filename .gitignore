@@ -170,3 +170,10 @@ $RECYCLE.BIN/
 *.bak
 *.tmp
 *.temp
+
+
+# ====================
+# Huge Dataset Files
+# ====================
+raw_data/gemma_data
+raw_data/human_data
