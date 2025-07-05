@@ -1,23 +1,33 @@
 import pandas as pd
+import numpy as np
 
-input_file = "./dataset_1/partition_1.ld"
-output_file = "ld_sparse_matrix.tsv"
+ld_file = "./dataset_1/partition_1.ld"
 
-# Load the LD data (assumes whitespace-delimited, no header)
-df = pd.read_csv(input_file, sep='\s+', comment='#')
+cols = ["CHR_A", "BP_A", "SNP_A", "CHR_B", "BP_B", "SNP_B", "R2"]
+df = pd.read_csv(ld_file, sep="\s+", names=cols, comment="#")
 
-# Extract needed columns
-rows = df['BP_A'].astype(int)
-cols = df['BP_B'].astype(int)
-vals = df['R2']
+# Convert BP_A and BP_B to numeric
+df['BP_A'] = pd.to_numeric(df['BP_A'], errors='coerce')
+df['BP_B'] = pd.to_numeric(df['BP_B'], errors='coerce')
 
-# To keep symmetry, output both (i,j) and (j,i)
-df_upper = pd.DataFrame({'row': rows, 'col': cols, 'value': vals})
-df_lower = pd.DataFrame({'row': cols, 'col': rows, 'value': vals})
+# Drop rows where BP_A or BP_B is NaN (invalid)
+df = df.dropna(subset=['BP_A', 'BP_B'])
 
-df_sparse = pd.concat([df_upper, df_lower], ignore_index=True)
+df['BP_A'] = df['BP_A'].astype(int)
+df['BP_B'] = df['BP_B'].astype(int)
 
-# Save as tab-separated values (row, col, value)
-df_sparse.to_csv(output_file, sep='\t', index=False, header=False)
+positions = np.sort(np.unique(np.concatenate((df['BP_A'].values, df['BP_B'].values))))
+pos_to_idx = {pos: idx for idx, pos in enumerate(positions)}
 
-print(f"Sparse matrix saved to {output_file}")
+matrix = np.zeros((len(positions), len(positions)))
+np.fill_diagonal(matrix, 1)
+
+for _, row in df.iterrows():
+    i = pos_to_idx[row['BP_A']]
+    j = pos_to_idx[row['BP_B']]
+    r2 = row['R2']
+    matrix[i, j] = r2
+    matrix[j, i] = r2
+
+matrix_df = pd.DataFrame(matrix, index=positions, columns=positions)
+matrix_df.to_csv("outputs/BASE_ld_matix.tsv", sep="\t")
