@@ -1,7 +1,12 @@
 package pipeline.shuffling;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
+
+import pipeline.Utils;
 
 public class MedShuffling {
 
@@ -40,5 +45,26 @@ public class MedShuffling {
         }
 
         return orderedMatrix;
+    }
+
+
+
+    public static void main(String[] args) throws IOException {
+
+        String inputPath = "ld_data/outputs/BASE_ld_matix.tsv";
+        String outputDir = "./ld_data/outputs";
+        String outputPath = outputDir + "/sorted_med_matrix.tsv";
+
+        double[][] inputMatrix = Utils.readMatrixFromTSV(inputPath);
+
+        double[][] outputMatrix = sortMedian(inputMatrix);
+
+        Files.createDirectories(Paths.get(outputDir));
+
+        Utils.writeMatrixToTSV(outputMatrix, outputPath);
+
+        System.out.println("Output written to: " + outputPath);
+
+
     }
 }

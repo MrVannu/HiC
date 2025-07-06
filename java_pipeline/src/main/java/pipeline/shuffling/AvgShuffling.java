@@ -1,16 +1,12 @@
 package pipeline.shuffling;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
+import pipeline.Utils;
 
 public class AvgShuffling {
 
@@ -54,54 +50,7 @@ public class AvgShuffling {
         return orderedMatrix;
     }
 
-    // Reads a TSV file with numeric values into a 2D double array
-    public static double[][] readMatrixFromTSV(String filePath) throws IOException {
-    List<double[]> rows = new ArrayList<>();
 
-    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-        String line;
-
-        // Read and skip header line (column labels)
-        if ((line = br.readLine()) == null) {
-            throw new IOException("Empty file");
-        }
-
-        while ((line = br.readLine()) != null) {
-            if (line.trim().isEmpty()) continue; // skip empty lines
-            String[] parts = line.split("\t");
-            
-            // Skip the first column (row label)
-            double[] row = new double[parts.length - 1];
-
-            for (int i = 1; i < parts.length; i++) {
-                row[i - 1] = Double.parseDouble(parts[i]);
-            }
-
-            rows.add(row);
-        }
-    }
-
-    // Convert list to 2D array
-    double[][] matrix = new double[rows.size()][];
-    for (int i = 0; i < rows.size(); i++) {
-        matrix[i] = rows.get(i);
-    }
-
-    return matrix;
-}
-
-    // Writes a 2D double array to TSV file
-    public static void writeMatrixToTSV(double[][] matrix, String filePath) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            for (double[] row : matrix) {
-                for (int i = 0; i < row.length; i++) {
-                    bw.write(String.valueOf(row[i]));
-                    if (i < row.length - 1) bw.write("\t");
-                }
-                bw.newLine();
-            }
-        }
-    }
 
     public static void main(String[] args) throws IOException {
 
@@ -109,13 +58,13 @@ public class AvgShuffling {
         String outputDir = "./ld_data/outputs";
         String outputPath = outputDir + "/sorted_avg_matrix.tsv";
 
-        double[][] inputMatrix = readMatrixFromTSV(inputPath);
+        double[][] inputMatrix = Utils.readMatrixFromTSV(inputPath);
 
         double[][] outputMatrix = sortAvg(inputMatrix);
 
         Files.createDirectories(Paths.get(outputDir));
 
-        writeMatrixToTSV(outputMatrix, outputPath);
+        Utils.writeMatrixToTSV(outputMatrix, outputPath);
 
         System.out.println("Output written to: " + outputPath);
 

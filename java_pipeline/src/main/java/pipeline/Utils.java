@@ -1,6 +1,11 @@
 package pipeline;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,6 +70,56 @@ public class Utils {
         if(node.isLeaf()) return 1;
         
         return 1 + Math.max(getTreeDepth(node.left), getTreeDepth(node.right));
+    }
+
+
+        // Reads a TSV file with numeric values into a 2D double array
+    public static double[][] readMatrixFromTSV(String filePath) throws IOException {
+    List<double[]> rows = new ArrayList<>();
+
+    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        String line;
+
+        // Read and skip header line (column labels)
+        if ((line = br.readLine()) == null) {
+            throw new IOException("Empty file");
+        }
+
+        while ((line = br.readLine()) != null) {
+            if (line.trim().isEmpty()) continue; // skip empty lines
+            String[] parts = line.split("\t");
+            
+            // Skip the first column (row label)
+            double[] row = new double[parts.length - 1];
+
+            for (int i = 1; i < parts.length; i++) {
+                row[i - 1] = Double.parseDouble(parts[i]);
+            }
+
+            rows.add(row);
+        }
+    }
+
+    // Convert list to 2D array
+    double[][] matrix = new double[rows.size()][];
+    for (int i = 0; i < rows.size(); i++) {
+        matrix[i] = rows.get(i);
+    }
+
+    return matrix;
+}
+
+    // Writes a 2D double array to TSV file
+    public static void writeMatrixToTSV(double[][] matrix, String filePath) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            for (double[] row : matrix) {
+                for (int i = 0; i < row.length; i++) {
+                    bw.write(String.valueOf(row[i]));
+                    if (i < row.length - 1) bw.write("\t");
+                }
+                bw.newLine();
+            }
+        }
     }
 }
 
