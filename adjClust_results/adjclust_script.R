@@ -11,7 +11,7 @@ use_base_format <- "-base" %in% args
 # Input/output paths
 input_file <- "../ld_data/outputs/sorted_avg_matrix.tsv"
 output_merge_file <- "./results/sorted_avg_matrix_clusters_merge.tsv"
-k_clusters <- 3  # desired number of clusters
+#k_clusters <- 3  # desired number of clusters
 
 # Create results directory if not exists
 if (!dir.exists("results")) dir.create("results", recursive = TRUE)
@@ -32,14 +32,19 @@ if (use_base_format) {
 sim <- as.matrix(df)
 sim[is.na(sim)] <- 0
 
+# Check numeric symmetry
 cat("Max absolute difference between sim and its transpose:", max(abs(sim - t(sim))), "\n")
 
-# Ensure symmetry
+# Force symmetry just in case of numeric drift
 sim <- (sim + t(sim)) / 2
 
-# Check dimensions and symmetry
-cat("Matrix dimensions:", dim(sim), "\n")
-if (!isSymmetric(sim)) stop("Matrix is not symmetric!")
+# Remove row/column names that might confuse isSymmetric
+dimnames(sim) <- NULL
+
+# Check symmetry using all.equal (robust to small floating point issues)
+if (!isTRUE(all.equal(sim, t(sim)))) {
+  stop("Matrix is not symmetric even after symmetrization.")
+}
 
 # Perform clustering
 cat("Running adjClust...\n")
@@ -48,7 +53,6 @@ fit <- adjClust(sim, type = "similarity")
 # Save merge matrix
 merge_df <- as.data.frame(fit$merge)
 write.table(merge_df, output_merge_file, quote = FALSE, col.names = FALSE, row.names = TRUE, sep = "\t")
-
 
 cat("Clustering completed.\n")
 cat("Merge saved to:", output_merge_file, "\n")
