@@ -8,7 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -73,54 +75,103 @@ public class Utils {
     }
 
 
-        // Reads a TSV file with numeric values into a 2D double array
-    public static double[][] readMatrixFromTSV(String filePath) throws IOException {
-    List<double[]> rows = new ArrayList<>();
+    // Reads a TSV file with numeric values into a 2D double array
+    public static double[][] readLDMatrix(String filePath) throws IOException {
+        List<double[]> rows = new ArrayList<>();
 
-    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-        String line;
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
 
-        // Read and skip header line (column labels)
-        if ((line = br.readLine()) == null) {
-            throw new IOException("Empty file");
-        }
-
-        while ((line = br.readLine()) != null) {
-            if (line.trim().isEmpty()) continue; // skip empty lines
-            String[] parts = line.split("\t");
-            
-            // Skip the first column (row label)
-            double[] row = new double[parts.length - 1];
-
-            for (int i = 1; i < parts.length; i++) {
-                row[i - 1] = Double.parseDouble(parts[i]);
+            // Read and skip header line (column labels)
+            if ((line = br.readLine()) == null) {
+                throw new IOException("Empty file");
             }
 
-            rows.add(row);
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue; // skip empty lines
+                String[] parts = line.split("\t");
+
+                // Skip the first column (row label)
+                double[] row = new double[parts.length - 1];
+                for (int i = 1; i < parts.length; i++) {
+                    row[i - 1] = Double.parseDouble(parts[i]);
+                }
+
+                rows.add(row);
+            } 
         }
+
+        // Convert list to 2D array
+        double[][] matrix = new double[rows.size()][];
+        for (int i = 0; i < rows.size(); i++) {
+            matrix[i] = rows.get(i);
+        }
+
+        return matrix;
     }
 
-    // Convert list to 2D array
-    double[][] matrix = new double[rows.size()][];
-    for (int i = 0; i < rows.size(); i++) {
-        matrix[i] = rows.get(i);
-    }
+    
 
-    return matrix;
-}
 
     // Writes a 2D double array to TSV file
-    public static void writeMatrixToTSV(double[][] matrix, String filePath) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+    public static void writeMatrixToTSV(double[][] matrix, String outputPath) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
             for (double[] row : matrix) {
-                for (int i = 0; i < row.length; i++) {
-                    bw.write(String.valueOf(row[i]));
-                    if (i < row.length - 1) bw.write("\t");
+                for (int j = 0; j < row.length; j++) {
+                    writer.write(String.format(Locale.US, "%.6f", row[j]));
+                    if (j < row.length - 1) writer.write("\t");
                 }
-                bw.newLine();
+                writer.newLine();
             }
         }
     }
+
+
+    public static double[][] reorderMatrix(double[][] matrix, int[] order) {
+        int n = matrix.length;
+        double[][] reordered = new double[n][n];
+
+        for (int i = 0; i < n; i++) {
+            int row = order[i];
+            for (int j = 0; j < n; j++) {
+                int col = order[j];
+                reordered[i][j] = matrix[row][col];
+            }
+        }
+
+        return reordered;
+    }
+
+
+
+    public static int[] getSortedIndices(double[] values) {
+        Integer[] indices = new Integer[values.length];
+        for (int i = 0; i < values.length; i++) indices[i] = i;
+
+        Arrays.sort(indices, Comparator.comparingDouble(i -> values[i]));
+
+        return Arrays.stream(indices).mapToInt(i -> i).toArray();
+    }
+
+
+    public static int[] getPlainIndices(String filePath) throws IOException {
+        List<Integer> indices = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue; // skip empty lines
+                String[] parts = line.split("\t");
+                for (String part : parts) {
+                    indices.add(Integer.parseInt(part));
+                }
+            }
+        }
+
+        return indices.stream().mapToInt(i -> i).toArray();
+    }
+
+
 }
 
 

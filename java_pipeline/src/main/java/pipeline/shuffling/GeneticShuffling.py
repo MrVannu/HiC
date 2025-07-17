@@ -14,7 +14,7 @@ TOURNAMENT_SIZE = 3
 NUMBER_OF_GENERATIONS = 80
 CROSSOVER_PROBABILITY = 0.7
 
-similarity_matrix = np.loadtxt("ld_data/outputs/BASE_ld_matix.tsv", delimiter="\t", skiprows=1)
+similarity_matrix = np.loadtxt("ld_data/outputs/BASE_ld_matrix.tsv", delimiter="\t", skiprows=1)
 number_of_nodes = similarity_matrix.shape[0]
 node_identifiers = list(range(number_of_nodes))
 
@@ -51,7 +51,7 @@ print()
 best_order = hall_of_fame[0]
 sorted_matrix = similarity_matrix[np.ix_(best_order, best_order)]
 
-np.savetxt("./ld_data/outputs/sorted_genAlg_matrix.tsv", sorted_matrix, fmt="%.6f", delimiter="\t")
+#np.savetxt("./ld_data/outputs/sorted_genAlg_matrix.tsv", sorted_matrix, fmt="%.6f", delimiter="\t")
 np.savetxt("./ld_data/outputs/best_order_genAlg.tsv", best_order, fmt="%d", delimiter="\t")
 
 

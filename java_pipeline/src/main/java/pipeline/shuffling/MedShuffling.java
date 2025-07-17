@@ -1,70 +1,50 @@
 package pipeline.shuffling;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Comparator;
-
 import pipeline.Utils;
 
 public class MedShuffling {
 
-    public static double[][] sortMedian(double[][] inputMatrix) {
-        int rows = inputMatrix.length;
-        int cols = inputMatrix[0].length;
+    public static double[] computeColumnMedian(double[][] matrix) {
+        int n = matrix.length;
+        double[] medians = new double[n];
+        double[] values = new double[n];
 
-        // Compute median for each column
-        Double[] medians = new Double[cols];
-        for (int j = 0; j < cols; j++) {
-            double[] column = new double[rows];
-            for (int i = 0; i < rows; i++) {
-                column[i] = inputMatrix[i][j];
+        for (int j = 0; j < n; j++) {
+            for (int i = 0; i < n; i++) {
+                values[i] = matrix[i][j];
             }
-            Arrays.sort(column);
-            if (rows % 2 == 1) {
-                medians[j] = column[rows / 2];
-            } else {
-                medians[j] = (column[rows / 2 - 1] + column[rows / 2]) / 2.0;
-            }
+            Arrays.sort(values);
+           
+            if (n % 2 == 0) medians[j] = (values[n/2 - 1] + values[n/2]) / 2.0; // Even number of elements
+            else medians[j] = values[n/2]; // Odd number of elements
         }
 
-        // Get indices sorted by median descending
-        Integer[] indices = new Integer[cols];
-        for (int i = 0; i < cols; i++) indices[i] = i;
-
-        Arrays.sort(indices, Comparator.comparingDouble((Integer i) -> medians[i]).reversed());
-
-        // Reorder columns
-        double[][] orderedMatrix = new double[rows][cols];
-        for (int i = 0; i < cols; i++) {
-            int colIndex = indices[i];
-            for (int j = 0; j < rows; j++) {
-                orderedMatrix[j][i] = inputMatrix[j][colIndex];
-            }
-        }
-
-        return orderedMatrix;
+        return medians;
     }
 
 
 
+
+
+    public static void sortMedian(String inputPath, String outputPath) throws IOException {
+        double[][] ldMatrix = Utils.readLDMatrix(inputPath);
+        double[] colMeans = computeColumnMedian(ldMatrix);
+        int[] order = Utils.getSortedIndices(colMeans);
+        double[][] reshuffled = Utils.reorderMatrix(ldMatrix, order);
+        Utils.writeMatrixToTSV(reshuffled, outputPath);
+    }
+    
+
+
     public static void main(String[] args) throws IOException {
 
-        String inputPath = "ld_data/outputs/BASE_ld_matix.tsv";
+        String inputPath = "ld_data/outputs/BASE_ld_matrix.tsv";
         String outputDir = "./ld_data/outputs";
         String outputPath = outputDir + "/sorted_med_matrix.tsv";
 
-        double[][] inputMatrix = Utils.readMatrixFromTSV(inputPath);
-
-        double[][] outputMatrix = sortMedian(inputMatrix);
-
-        Files.createDirectories(Paths.get(outputDir));
-
-        Utils.writeMatrixToTSV(outputMatrix, outputPath);
-
-        System.out.println("Output written to: " + outputPath);
-
+        MedShuffling.sortMedian(inputPath, outputPath);
 
     }
 }

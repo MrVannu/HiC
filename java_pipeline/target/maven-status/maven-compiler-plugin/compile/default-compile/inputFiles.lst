@@ -1,8 +1,8 @@
 /home/ubulunux/HiC/java_pipeline/src/main/java/pipeline/shuffling/AvgShuffling.java
 /home/ubulunux/HiC/java_pipeline/src/main/java/pipeline/TreeNode.java
-/home/ubulunux/HiC/java_pipeline/src/main/java/pipeline/shuffling/GeneticShuffling.java
 /home/ubulunux/HiC/java_pipeline/src/main/java/pipeline/TreeHandler.java
 /home/ubulunux/HiC/java_pipeline/src/main/java/pipeline/Utils.java
 /home/ubulunux/HiC/java_pipeline/src/main/java/pipeline/CartesianMatrixEvaluator.java
 /home/ubulunux/HiC/java_pipeline/src/main/java/pipeline/Main.java
 /home/ubulunux/HiC/java_pipeline/src/main/java/pipeline/shuffling/MedShuffling.java
+/home/ubulunux/HiC/java_pipeline/src/main/java/pipeline/shuffling/LDMatrixProcessor.java

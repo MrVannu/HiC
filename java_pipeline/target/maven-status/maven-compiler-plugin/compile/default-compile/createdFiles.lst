@@ -5,5 +5,4 @@ pipeline/CartesianMatrixEvaluator$Pair.class
 pipeline/shuffling/AvgShuffling.class
 pipeline/Main.class
 pipeline/CartesianMatrixEvaluator.class
-pipeline/shuffling/GeneticShuffling.class
 pipeline/Utils.class
