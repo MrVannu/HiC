@@ -9,8 +9,8 @@ args <- commandArgs(trailingOnly = TRUE)
 use_base_format <- "-base" %in% args
 
 # Input/output paths
-input_file <- "../ld_data/outputs/sorted_med_matrix.tsv"
-output_merge_file <- "./results/sorted_med_matrix_clusters_merge.tsv"
+input_file <- "../ld_data/outputs/sorted_genAlg_matrix.tsv"
+output_merge_file <- "./results/sorted_genAlg_matrix_clusters_merge.tsv"
 #k_clusters <- 3  # desired number of clusters
 
 # Create results directory if not exists
