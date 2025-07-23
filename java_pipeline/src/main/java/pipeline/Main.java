@@ -7,25 +7,14 @@ public class Main extends TreeHandler {
 
     public static void main(String[] args) {
         
-        String filePath = "java_pipeline/res/_clusters.tsv";
+        String filePath = "./adjClust_results/results/sorted_avg_matrix_clusters_merge.tsv";
         int[][] linkage = Utils.readAdjClustResults(filePath); // Reads the clustering results from a file
 
         TreeNode root = buildAndPrintTree(linkage); // Builds the tree from the linkage matrix and prints it
-        //System.out.println("Root node: " + root.label);
-        //System.out.println("LEFT node: " + root.left.label);
-        //System.out.println("RIGHT node: " + root.right.label);
-
-
-        int[][] matrix = {
-            {1, 2, 3, 5, 4},
-            {4, 5, 6, 9, 2},
-            {4, 5, 6, 9, 2}
-        };
 
         int depth = Utils.getTreeDepth(root); // Gets the total depth of the tree (root is at depth 1)
-        double metricResult = metricOverTree(root, matrix, depth, 1, 0);
+        double metricResult = metricOverTree(root, linkage, depth, 1, 0);
         System.out.println("Average matrix value over product: " + metricResult);
-
     }
 
     
