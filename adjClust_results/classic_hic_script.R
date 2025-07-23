@@ -10,7 +10,6 @@ use_base_format <- "-base" %in% args
 # Input/output paths
 input_file <- "../ld_data/outputs/BASE_ld_matrix.tsv"
 output_merge_file <- "./results/classic_hic_clusters_merge.tsv"
-#k_clusters <- 3  # Optional: desired number of clusters
 
 # Create results directory if not exists
 if (!dir.exists("results")) dir.create("results", recursive = TRUE)
