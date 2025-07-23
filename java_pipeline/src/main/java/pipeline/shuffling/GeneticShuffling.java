@@ -11,9 +11,9 @@ public class GeneticShuffling {
     }
 
 
-    public static void sortAvg(String inputPath, String outputPath) throws IOException {
+    public static void sortGenAlg(String inputPath, String outputPath) throws IOException {
         double[][] ldMatrix = Utils.readLDMatrix(inputPath);
-        int[] order = Utils.getPlainIndices("best_order_genAlg.tsv");
+        int[] order = Utils.getPlainIndices("ld_data/outputs/best_order_genAlg.tsv");
         double[][] reshuffled = Utils.reorderMatrix(ldMatrix, order);
         Utils.writeMatrixToTSV(reshuffled, outputPath);
     }
@@ -23,6 +23,6 @@ public class GeneticShuffling {
         String outputDir = "./ld_data/outputs";
         String outputPath = outputDir + "/sorted_genAlg_matrix.tsv";
 
-        AvgShuffling.sortAvg(inputPath, outputPath);
+        GeneticShuffling.sortGenAlg(inputPath, outputPath);
     }
 }
