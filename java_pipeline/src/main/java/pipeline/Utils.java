@@ -1,31 +1,27 @@
 package pipeline;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 
-
+/**
+ * A collection of utility functions for file I/O, matrix operations, clustering, and tree visualization.
+ */
 public class Utils {
-
 
     /**
      * Recursively prints a tree structure starting from the given node.
+     *
+     * @param node   The root node of the tree.
+     * @param prefix A string prefix used for indentation.
+     * @param isTail Whether this node is the last child (used for drawing lines).
      */
     public static void printTree(TreeNode node, String prefix, boolean isTail) {
         if (node == null) return;
 
         System.out.println(prefix + (isTail ? "└── " : "├── ") + node.label);
         List<TreeNode> children = new ArrayList<>();
+        
         if (node.left != null) children.add(node.left);
         if (node.right != null) children.add(node.right);
 
@@ -36,13 +32,11 @@ public class Utils {
 
 
     /**
-     * Reasds a file containing clustering results in adjacency format.
-     * The file should contain tab-separated values where each line represents a cluster.
-     * The first value is the cluster ID, followed by the IDs of the points in that cluster.
+     * Reads a file containing clustering results in adjacency format.
+     * Each line should be tab-separated and represent one clustering merge step. (.tsv file expected)
      * 
-     * @param filePath Path of the file to read.
-     * @return Matrix of integers where each row represents a cluster and its members.
-     * @throws Exception If there is an error reading the file.
+     * @param filePath Path to the TSV file.
+     * @return A 2D integer array representing the clustering steps.
      */
     public static int[][] readAdjClustResults(String filePath) {
         List<int[]> rows = new ArrayList<>();
@@ -61,12 +55,17 @@ public class Utils {
             e.printStackTrace();
         }
 
+        // Deliberating using int[][] for enabling quick indicization
         return rows.toArray(new int[0][0]);
     }
 
 
-    
-
+    /**
+     * Calculates the depth of a binary tree.
+     *
+     * @param node The root node of the tree.
+     * @return The maximum depth of the tree.
+     */
     public static int getTreeDepth(TreeNode node) {
         if (node == null) return 0;
         if(node.isLeaf()) return 1;
@@ -74,8 +73,15 @@ public class Utils {
         return 1 + Math.max(getTreeDepth(node.left), getTreeDepth(node.right));
     }
 
-
-    // Reads a TSV file with numeric values into a 2D double array
+    
+    /**
+     * Reads a linkage disequilibrium (LD) matrix from a tab-separated file.
+     * Skips the header row and first column in each row. (number of genetic positions)
+     *
+     * @param filePath Path to the input TSV file.
+     * @return A 2D double array representing the matrix.
+     * @throws IOException If an error occurs during file reading.
+     */
     public static double[][] readLDMatrix(String filePath) throws IOException {
         List<double[]> rows = new ArrayList<>();
 
@@ -88,7 +94,7 @@ public class Utils {
             }
 
             while ((line = br.readLine()) != null) {
-                if (line.trim().isEmpty()) continue; // skip empty lines
+                if (line.trim().isEmpty()) continue;
                 String[] parts = line.split("\t");
 
                 // Skip the first column (row label)
@@ -109,11 +115,15 @@ public class Utils {
 
         return matrix;
     }
-
     
 
-
-    // Writes a 2D double array to TSV file
+    /**
+     * Writes a 2D double matrix to a TSV file with 6 decimal precision.
+     *
+     * @param matrix     The matrix to write.
+     * @param outputPath Path to the output TSV file.
+     * @throws IOException If an error occurs during writing.
+     */
     public static void writeMatrixToTSV(double[][] matrix, String outputPath) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
             for (double[] row : matrix) {
@@ -127,6 +137,13 @@ public class Utils {
     }
 
 
+    /**
+     * Reorders a square matrix based on a given order of row and column indices.
+     *
+     * @param matrix The original square matrix.
+     * @param order  The new order of indices.
+     * @return A reordered matrix according to the given order.
+     */
     public static double[][] reorderMatrix(double[][] matrix, int[] order) {
         int n = matrix.length;
         double[][] reordered = new double[n][n];
@@ -143,7 +160,12 @@ public class Utils {
     }
 
 
-
+    /**
+     * Returns the indices that would sort a given array in ascending order.
+     *
+     * @param values The input array of doubles.
+     * @return An array of indices that would sort the input array.
+     */
     public static int[] getSortedIndices(double[] values) {
         Integer[] indices = new Integer[values.length];
         for (int i = 0; i < values.length; i++) indices[i] = i;
@@ -154,13 +176,21 @@ public class Utils {
     }
 
 
+    /**
+     * Reads a TSV file containing numeric values and flattens them into a 1D array of integers.
+     * Used for loading plain index lists.
+     *
+     * @param filePath Path to the TSV file.
+     * @return An array of integers extracted from the file.
+     * @throws IOException If an error occurs while reading the file.
+     */
     public static int[] getPlainIndices(String filePath) throws IOException {
         List<Integer> indices = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.trim().isEmpty()) continue; // skip empty lines
+                if (line.trim().isEmpty()) continue;
                 String[] parts = line.split("\t");
                 for (String part : parts) {
                     indices.add(Integer.parseInt(part));
