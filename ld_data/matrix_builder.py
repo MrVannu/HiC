@@ -30,4 +30,4 @@ for _, row in df.iterrows():
     matrix[j, i] = r2
 
 matrix_df = pd.DataFrame(matrix, index=positions, columns=positions)
-matrix_df.to_csv("outputs/BASE_ld_matix.tsv", sep="\t")
+matrix_df.to_csv("outputs/BASE_ld_matrix.tsv", sep="\t")

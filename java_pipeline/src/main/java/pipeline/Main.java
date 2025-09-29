@@ -17,7 +17,7 @@ public class Main extends TreeHandler {
      */
     public static void main(String[] args) {
             
-        String filePath = "./adjClust_results/results/sorted_avg_matrix_clusters_merge.tsv";
+        String filePath = "./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge.tsv";
         int[][] linkage = Utils.readAdjClustResults(filePath); // Reads the clustering results from tsv file
         
         TreeNode root = buildAndPrintTree(linkage); // Builds the tree from the linkage matrix
