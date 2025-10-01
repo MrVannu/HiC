@@ -1,4 +1,7 @@
 #pre_gwas_plink 1
+# This script takes a VCF file as input and generates PLINK files (bim, bed, fam),
+# computes linkage disequilibrium (LD) statistics, and creates a genotype matrix.
+# It takes a VCF (.vcf) file as input and outputs a LD file (.ld)
 #!/bin/bash
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 <input.vcf>"

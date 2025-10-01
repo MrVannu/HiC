@@ -1,58 +1,39 @@
-# Install and load required packages
-if (!requireNamespace("stats", quietly = TRUE)) {
-  stop("The 'stats' package is required but not available. It should be included in base R.")
-}
+# Install Matrix package if not already installed
+if (!requireNamespace("Matrix", quietly = TRUE)) install.packages("Matrix")
+library(Matrix)
 
-# Read command-line arguments
-args <- commandArgs(trailingOnly = TRUE)
-use_base_format <- "-base" %in% args
+# Input file
+input_file <- "../ld_data/outputs/BASE_ld_upper.tsv"
 
-# Input/output paths
-input_file <- "../ld_data/outputs/BASE_ld_matrix.tsv"
-output_merge_file <- "./results/classic_hic_clusters_merge.tsv"
+# Read long-format LD file
+df <- read.table(input_file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+df <- df[!is.na(df$BP_A) & !is.na(df$BP_B) & !is.na(df$R2), ]
 
-# Create results directory if not exists
-if (!dir.exists("results")) dir.create("results", recursive = TRUE)
+# Map positions to indices
+positions <- sort(unique(c(df$BP_A, df$BP_B)))
+pos_to_idx <- setNames(seq_along(positions), positions)
 
-cat("Reading input matrix...\n")
+# Build sparse matrix (upper triangular)
+i <- pos_to_idx[as.character(df$BP_A)]
+j <- pos_to_idx[as.character(df$BP_B)]
+x <- df$R2
 
-if (use_base_format) {
-  cat("Detected -base flag: treating first row and column as headers.\n")
-  df <- read.table(input_file, header = TRUE, sep = "\t", check.names = FALSE)
-  rownames(df) <- df[[1]]
-  df <- df[, -1]
-} else {
-  cat("No -base flag: reading as raw matrix (no headers).\n")
-  df <- read.table(input_file, header = FALSE, sep = "\t")
-}
-
-# Convert to numeric matrix
-sim <- as.matrix(df)
-sim[is.na(sim)] <- 0
-
-# Check symmetry
-cat("Max absolute difference between sim and its transpose:", max(abs(sim - t(sim))), "\n")
-
-# Force symmetry
-sim <- (sim + t(sim)) / 2
-dimnames(sim) <- NULL
-
-if (!isTRUE(all.equal(sim, t(sim)))) {
-  stop("Matrix is not symmetric even after symmetrization.")
-}
+# Create sparse matrix (symmetric)
+sparse_sim <- sparseMatrix(
+  i = i, j = j, x = x,
+  dims = c(length(positions), length(positions)),
+  symmetric = TRUE
+)
 
 # Convert similarity to distance
-cat("Converting similarity matrix to distance matrix...\n")
-dist_mat <- as.dist(1 - sim)
+dist_mat <- as.dist(1 - sparse_sim)
 
-# Run classic hierarchical clustering
-cat("Running hierarchical clustering using complete linkage...\n")
+# Hierarchical clustering
 hc <- hclust(dist_mat, method = "complete")
 
 # Save merge matrix
-cat("Saving merge matrix to file...\n")
 merge_df <- as.data.frame(hc$merge)
-write.table(merge_df, output_merge_file, quote = FALSE, col.names = FALSE, row.names = TRUE, sep = "\t")
+write.table(merge_df, "./results/classic_hic_clusters_merge.tsv", quote = FALSE,
+            col.names = FALSE, row.names = TRUE, sep = "\t")
 
-cat("Hierarchical clustering completed.\n")
-cat("Merge saved to:", output_merge_file, "\n")
+cat("Hierarchical clustering completed. Merge saved.\n")

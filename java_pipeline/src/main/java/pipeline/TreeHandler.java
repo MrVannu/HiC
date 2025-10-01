@@ -4,19 +4,18 @@ import java.util.*;
 
 /**
  * Handles the construction and traversal of hierarchical clustering trees
- * based on a linkage matrix.
+ * based on a linkage matrix. Optimized for large datasets.
  */
 public class TreeHandler extends CartesianMatrixEvaluator {
-   
+
     /**
-     * Builds a tree structure from the given linkage matrix and prints it.
-     * The linkage matrix is expected to be in the format:
-     * [cluster_id, left_child_id, right_child_id, distance]
+     * Builds a tree structure from the given linkage matrix.
+     * Avoids printing large trees to console for huge datasets.
      *
      * @param linkage A 2D integer array representing the clustering steps.
      * @return The root node of the constructed tree.
      */
-    public static TreeNode buildAndPrintTree(int[][] linkage) {
+    public static TreeNode buildTree(int[][] linkage) {
         if (linkage == null || linkage.length == 0) {
             System.out.println("Linkage dataset was empty.");
             return null;
@@ -24,31 +23,24 @@ public class TreeHandler extends CartesianMatrixEvaluator {
 
         Map<Integer, TreeNode> nodeMap = new HashMap<>();
 
-        // Track the next available unique leafId
-        int maxId = 0;
-
-        // Scan for max point ID (negative indices mean leaf points)
+        // Track the maximum leaf ID from negative indices
+        int maxLeafId = 0;
         for (int[] row : linkage) {
             int leftId = row[1];
             int rightId = row[2];
-            maxId = Math.max(maxId, Math.max(-leftId, -rightId));
+            maxLeafId = Math.max(maxLeafId, Math.max(-leftId, -rightId));
         }
 
-        int nextLeafId = maxId + 1; // Start assigning new IDs after the last leaf
+        int nextLeafId = maxLeafId + 1;
 
-        // Constructs the tree
+        // Construct tree
         for (int[] row : linkage) {
             int clusterId = row[0];
             int leftId = row[1];
             int rightId = row[2];
 
-            TreeNode left = (leftId < 0)
-                ? new TreeNode("pt" + (-leftId), -leftId)
-                : nodeMap.get(leftId);
-
-            TreeNode right = (rightId < 0)
-                ? new TreeNode("pt" + (-rightId), -rightId)
-                : nodeMap.get(rightId);
+            TreeNode left = (leftId < 0) ? new TreeNode("pt" + (-leftId), -leftId) : nodeMap.get(leftId);
+            TreeNode right = (rightId < 0) ? new TreeNode("pt" + (-rightId), -rightId) : nodeMap.get(rightId);
 
             TreeNode parent = new TreeNode("C" + clusterId, nextLeafId++);
             parent.left = left;
@@ -57,51 +49,38 @@ public class TreeHandler extends CartesianMatrixEvaluator {
             nodeMap.put(clusterId, parent);
         }
 
-        // Root is last cluster in the linkage matrix
-        TreeNode root = nodeMap.get(linkage[linkage.length - 1][0]);
-
-        System.out.println("Tree:");
-        Utils.printTree(root, "", true);
-
-        return root;
+        return nodeMap.get(linkage[linkage.length - 1][0]);
     }
 
-
     /**
-     * Extracts the set of leaf IDs from the hierarchical clustering tree.
-     * 
+     * Efficiently extracts the set of leaf IDs from the hierarchical tree.
+     * Uses caching inside TreeNode to avoid repeated traversal.
+     *
      * @param root the root node of the tree
-     * @return a set of integer leaf IDs contained in the tree, or {@code null} if root is null
+     * @return a set of integer leaf IDs contained in the tree
      */
     public static Set<Integer> extractSetOfLeaves(TreeNode root) {
-        if (root == null) {
-            System.out.println("Root is null, cannot extract leaves.");
-            return null;
-        }
+        if (root == null) return Collections.emptySet();
 
-        Set<Integer> leaves = new HashSet<>();
-        collectLeaves(root, leaves);
-
-        System.out.println("Leaves: " + leaves);
-        return leaves;
+        // Use the cached getLeafSet() from TreeNode
+        return root.getLeafSet();
     }
-
 
     /**
-     * Recursively collects leaf node IDs into the given set.
-     * 
-     * @param node the current tree node
-     * @param leaves the set accumulating leaf IDs
+     * Optional: prints a small summary of the tree for debugging.
+     * Avoids printing huge trees to console.
      */
-    private static void collectLeaves(TreeNode node, Set<Integer> leaves) {
-        if (node == null) return;
-
-        // If no children, it is a leaf
-        if (node.left == null && node.right == null) leaves.add(node.leafId);
-        else {
-            collectLeaves(node.left, leaves);
-            collectLeaves(node.right, leaves);
+    public static void printTreeSummary(TreeNode root) {
+        if (root == null) {
+            System.out.println("Tree is empty.");
+            return;
         }
+
+        int totalLeaves = root.getLeafSet().size();
+        System.out.println("Tree summary:");
+        System.out.println("Root label: " + root.label);
+        System.out.println("Total leaves: " + totalLeaves);
+        System.out.println("Left child: " + (root.left != null ? root.left.label : "null"));
+        System.out.println("Right child: " + (root.right != null ? root.right.label : "null"));
     }
-   
 }

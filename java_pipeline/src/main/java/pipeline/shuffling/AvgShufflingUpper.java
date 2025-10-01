@@ -2,20 +2,9 @@ package pipeline.shuffling;
 
 import java.io.*;
 import java.util.*;
+//import pipeline.shuffling.LdEntry;
 
 public class AvgShufflingUpper {
-
-    static class LdEntry {
-        int bpA;
-        int bpB;
-        double r2;
-
-        LdEntry(int bpA, int bpB, double r2) {
-            this.bpA = bpA;
-            this.bpB = bpB;
-            this.r2 = r2;
-        }
-    }
 
     public static void main(String[] args) throws IOException {
         String inFile = "ld_data/outputs/BASE_ld_upper.tsv";
@@ -72,6 +61,6 @@ public class AvgShufflingUpper {
             }
         }
 
-        System.out.println("Reordered file written to: " + outFile);
+        System.out.println("Reordered LD file (by means) written to: " + outFile);
     }
 }
