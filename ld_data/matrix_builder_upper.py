@@ -36,4 +36,4 @@ for _, row in df.iterrows():
         filtered.append((row["BP_A"], row["BP_B"], row["R2"]))
 
 filtered_df = pd.DataFrame(filtered, columns=["BP_A", "BP_B", "R2"])
-filtered_df.to_csv("outputs/BASE_ld_upper.tsv", sep="\t", index=False)
+filtered_df.to_csv("outputs/BASE_ld_upper_matrix.tsv", sep="\t", index=False)

@@ -1,7 +1,7 @@
 package pipeline.shufflingTest;
 
 import org.junit.jupiter.api.Test;
-import pipeline.shuffling.AvgShuffling;
+import pipeline.shuffling.AvgShufflingUpper;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AvgShufflingTest {
