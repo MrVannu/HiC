@@ -33,7 +33,7 @@ hc <- hclust(dist_mat, method = "complete")
 
 # Save merge matrix
 merge_df <- as.data.frame(hc$merge)
-write.table(merge_df, "./results/classic_hic_clusters_merge.tsv", quote = FALSE,
+write.table(merge_df, "./results/classic_clustering_upper_merge.tsv", quote = FALSE,
             col.names = FALSE, row.names = TRUE, sep = "\t")
 
 cat("Hierarchical clustering completed. Merge saved.\n")
