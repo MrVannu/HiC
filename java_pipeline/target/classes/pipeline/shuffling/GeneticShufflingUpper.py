@@ -46,7 +46,7 @@ creator.create("FitnessMax", base.Fitness, weights=(1.0,))
 creator.create("Individual", list, fitness=creator.FitnessMax)
 
 def fitness_function(ind):
-    """Somma R2 tra nodi adiacenti nella permutazione"""
+    """Sum R2 values of adjacent nodes in the permutration"""
     total_similarity = 0.0
     for i in range(len(ind)-1):
         a = idx_to_node[ind[i]]
@@ -99,4 +99,4 @@ with open(OUTPUT_LONG_FILE, "w") as f:
             f.write(f"{bp_a}\t{bp_b}\t{r2:.6f}\n")
 
 print(f"Best order saved to {OUTPUT_ORDER_FILE}")
-print(f"Sorted long-format upper matrix saved to {OUTPUT_LONG_FILE}")
+print(f"Reordered LD file (by Genetic Algorithm) written to: {OUTPUT_LONG_FILE}")

@@ -32,33 +32,44 @@ public class Utils {
 
 
     /**
-     * Reads a file containing clustering results in adjacency format.
-     * Each line should be tab-separated and represent one clustering merge step. (.tsv file expected)
-     * 
+     * Reads a TSV file containing clustering merge steps efficiently.
+     * Each line should be tab-separated integers.
+     *
      * @param filePath Path to the TSV file.
-     * @return A 2D integer array representing the clustering steps.
+     * @return A 2D int array representing the clustering steps.
      */
     public static int[][] readAdjClustResults(String filePath) {
         List<int[]> rows = new ArrayList<>();
 
-        try (Scanner scanner = new Scanner(new File(filePath))) {
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine().trim();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
                 if (line.isEmpty()) continue;
 
-                String[] parts = line.split("\\t");
-                int[] row = Arrays.stream(parts).mapToInt(Integer::parseInt).toArray();
+                String[] parts = line.split("\t");
+                int[] row = new int[parts.length];
+
+                for (int i = 0; i < parts.length; i++) {
+                    row[i] = Integer.parseInt(parts[i]);
+                }
+
                 rows.add(row);
             }
-        } catch (Exception e) {
-            System.err.println("Error while reading the file: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
             e.printStackTrace();
         }
 
-        // Deliberating using int[][] for enabling quick indicization
-        return rows.toArray(new int[0][0]);
-    }
+        // Convert List<int[]> to int[][]
+        int[][] result = new int[rows.size()][];
+        for (int i = 0; i < rows.size(); i++) {
+            result[i] = rows.get(i);
+        }
 
+        return result;
+    }
 
     /**
      * Calculates the depth of a binary tree.
@@ -172,7 +183,7 @@ public class Utils {
 
         Arrays.sort(indices, Comparator.comparingDouble(i -> values[i]));
 
-        return Arrays.stream(indices).mapToInt(i -> i).toArray();
+        return Arrays.stream(indices).mapToInt(Integer::intValue).toArray();
     }
 
 

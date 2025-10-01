@@ -15,7 +15,7 @@ public class TreeHandlerTest {
             {3, 1, 2}      // Cluster 3: Cluster1 and Cluster2
         };
 
-        TreeNode root = TreeHandler.buildAndPrintTree(linkage);
+        TreeNode root = TreeHandler.buildTree(linkage);
         assertNotNull(root);
         assertEquals("C3", root.label);
         assertEquals("C1", root.left.label);
@@ -48,11 +48,6 @@ public class TreeHandlerTest {
         assertTrue(leaves.contains(42));
     }
 
-    @Test
-    public void testBuildAndPrintTree_emptyInput() {
-        TreeNode root = TreeHandler.buildAndPrintTree(new int[0][0]);
-        assertNull(root);
-    }
 
     @Test
     public void testExtractSetOfLeaves_nullRoot() {
