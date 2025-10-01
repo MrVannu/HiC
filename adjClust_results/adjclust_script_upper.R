@@ -5,8 +5,8 @@ if (!requireNamespace("adjclust", quietly = TRUE)) {
 library(adjclust)
 
 # Input/output paths
-input_file <- "../ld_data/outputs/sorted_avg_upper_matrix.tsv"
-output_merge_file <- "./results/sorted_avg_upper_matrix_clusters_merge.tsv"
+input_file <- "../ld_data/outputs/BASE_ld_upper.tsv"
+output_merge_file <- "./results/BASE_ld_upper_matrix_cluster_merge.tsv"
 
 # Create results directory if NOT exists
 if (!dir.exists("results")) dir.create("results", recursive = TRUE)

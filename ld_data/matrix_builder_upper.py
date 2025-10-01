@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from scipy.sparse import coo_matrix
+from scipy.sparse import save_npz
 
 # Input LD file
 ld_file = "./dataset_1/partition_1.ld"
@@ -52,6 +53,5 @@ sparse_df = pd.DataFrame({
 })
 sparse_df.to_csv("outputs/BASE_ld_upper.tsv", sep="\t", index=False)
 
-# Save as compressed sparse format for later use
-from scipy.sparse import save_npz
+# Save as compressed sparse format
 save_npz("outputs/BASE_ld_upper_matrix.npz", sparse_ld)
