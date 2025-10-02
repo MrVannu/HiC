@@ -7,6 +7,7 @@ import java.util.*;
 public class AvgShufflingUpper {
 
     public static void main(String[] args) throws IOException {
+<<<<<<< HEAD
         // Default paths
         String defaultInFile = "ld_data/outputs/BASE_ld_upper.tsv";
         String defaultOutFile = "ld_data/outputs/sorted_avg_upper_matrix.tsv";
@@ -14,6 +15,10 @@ public class AvgShufflingUpper {
         // Get input/output from args if provided
         String inFile = (args.length > 0) ? args[0] : defaultInFile;
         String outFile = (args.length > 1) ? args[1] : defaultOutFile;
+=======
+        String inFile = "ld_data/outputs/BASE_ld_upper.tsv";
+        String outFile = "ld_data/outputs/sorted_avg_upper_matrix.tsv";
+>>>>>>> b338905e4c445a3e505dcc59625208fbfa87b1e2
 
         // Read file
         List<LdEntry> ldList = new ArrayList<>();

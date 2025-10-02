@@ -7,6 +7,7 @@ import java.util.*;
 public class MedShufflingUpper {
 
     public static void main(String[] args) throws IOException {
+<<<<<<< HEAD
 
         // Default paths
         String defaultInFile = "ld_data/outputs/BASE_ld_upper.tsv";
@@ -16,6 +17,11 @@ public class MedShufflingUpper {
         String outputPath = (args.length > 1) ? args[1] : defaultOutFile;
 
         
+=======
+        String inputPath = "ld_data/outputs/BASE_ld_upper.tsv";
+        String outputPath = "ld_data/outputs/sorted_med_upper_matrix.tsv";
+
+>>>>>>> b338905e4c445a3e505dcc59625208fbfa87b1e2
         // Read long-format LD file
         List<LdEntry> ldList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(inputPath))) {
