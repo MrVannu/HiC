@@ -2,9 +2,16 @@
 if (!requireNamespace("Matrix", quietly = TRUE)) install.packages("Matrix")
 library(Matrix)
 
-# Input file
-input_file <- "../ld_data/outputs/BASE_ld_upper.tsv"
+# Default input file
+default_input_file <- "../ld_data/outputs/BASE_ld_upper.tsv"
+default_output_file <- "./results/classic_clustering_upper_merge.tsv"
 
+# Get command line arguments
+args <- commandArgs(trailingOnly = TRUE)
+input_file <- if (length(args) >= 1) args[1] else default_input_file
+output_file <- if (length(args) >= 2) args[2] else default_output_file
+
+cat("Using input file:", input_file, "\n")
 # Read long-format LD file
 df <- read.table(input_file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 df <- df[!is.na(df$BP_A) & !is.na(df$BP_B) & !is.na(df$R2), ]
@@ -33,7 +40,7 @@ hc <- hclust(dist_mat, method = "complete")
 
 # Save merge matrix
 merge_df <- as.data.frame(hc$merge)
-write.table(merge_df, "./results/classic_clustering_upper_merge.tsv", quote = FALSE,
+write.table(merge_df, output_file, quote = FALSE,
             col.names = FALSE, row.names = TRUE, sep = "\t")
 
 cat("Hierarchical clustering completed. Merge saved.\n")

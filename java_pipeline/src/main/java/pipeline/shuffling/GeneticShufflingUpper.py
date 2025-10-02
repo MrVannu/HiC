@@ -1,7 +1,9 @@
 import random
 from deap import base, creator, tools, algorithms
 import csv
- 
+import sys
+import os
+
 RANDOM_SEED = 121
 random.seed(RANDOM_SEED)
 
@@ -11,9 +13,24 @@ TOURN_SIZE = 3
 NUM_GEN = 80
 CROSS_PROB = 0.7
 
-INPUT_FILE = "ld_data/outputs/BASE_ld_upper.tsv"
-OUTPUT_ORDER_FILE = "ld_data/outputs/best_order_upper_genAlg.tsv"
-OUTPUT_LONG_FILE = "ld_data/outputs/sorted_genAlg_upper_matrix.tsv"
+
+DEFAULT_INPUT_FILE = "ld_data/outputs/BASE_ld_upper.tsv"
+DEFAULT_OUTPUT_ORDER_FILE = "ld_data/outputs/best_order_upper_genAlg.tsv"
+DEFAULT_OUTPUT_LONG_FILE = "ld_data/outputs/sorted_genAlg_upper_matrix.tsv"
+
+# -----------------------------
+# Get input/output from command-line arguments
+# -----------------------------
+args = sys.argv[1:]  # skip script name
+INPUT_FILE = args[0] if len(args) >= 1 else DEFAULT_INPUT_FILE
+OUTPUT_ORDER_FILE = args[1] if len(args) >= 2 else DEFAULT_OUTPUT_ORDER_FILE
+OUTPUT_LONG_FILE = args[2] if len(args) >= 3 else DEFAULT_OUTPUT_LONG_FILE
+
+# Ensure output directories exist
+for path in [OUTPUT_ORDER_FILE, OUTPUT_LONG_FILE]:
+    out_dir = os.path.dirname(path)
+    if out_dir and not os.path.exists(out_dir):
+        os.makedirs(out_dir)
  
 similarity_dict = {}
 nodes_set = set()
