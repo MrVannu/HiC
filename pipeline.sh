@@ -12,7 +12,7 @@ VCF_FILE=$1
 PARTITION_SIZE=$2
 NUM_PARTITIONS=$3
 
-echo "Pipeline started..."
+echo "🚀 Pipeline started..."
 
 
 # -------------------------
@@ -20,14 +20,16 @@ echo "Pipeline started..."
 # -------------------------
 echo "STEP 1: Partitioning of $VCF_FILE"
 python3 raw_data/partition_vcf_Optimized.py "$VCF_FILE" "$PARTITION_SIZE" "$NUM_PARTITIONS"
-echo "-----> STEP 1 COMPLETED!"
+echo "-----> ✅ STEP 1 COMPLETED!"
+
 
 # -------------------------
 # STEP 2: Computing LD values
 # -------------------------
 echo "STEP 2: Computing ld values"
 # Use ld_generator.sh here (future work)
-echo "-----> STEP 2 COMPLETED!"
+echo "-----> ✅ STEP 2 COMPLETED!"
+
 
 # -------------------------
 # STEP 3: Building sparse matrices for all partitions
@@ -45,7 +47,8 @@ for ((i=1;i<=NUM_PARTITIONS;i++)); do
     fi
 done
 
-echo "-----> STEP 3 COMPLETED!"
+echo "-----> ✅ STEP 3 COMPLETED!"
+
 
 # -------------------------
 # STEP 4: Averaging & shuffling upper matrices
@@ -80,10 +83,7 @@ for ((i=1; i<=NUM_PARTITIONS; i++)); do
     fi
 done
 
-echo "-----> STEP 4 COMPLETED!"
-
-
-
+echo "-----> ✅ STEP 4 COMPLETED!"
 
 # -------------------------
 # STEP 5: Median averaging & shuffling upper matrices
@@ -103,13 +103,13 @@ for ((i=1; i<=NUM_PARTITIONS; i++)); do
     fi
 done
 
-echo "-----> STEP 5 COMPLETED!"
+echo "-----> ✅ STEP 5 COMPLETED!"
 
 
 # -------------------------
-# STEP 5.1: Genetic Algorithm averaging & shuffling upper matrices
+# STEP 6: Genetic Algorithm averaging & shuffling upper matrices
 # -------------------------
-echo "STEP 5.1: Genetic Algorithm averaging & shuffling upper matrices"
+echo "STEP 6: Genetic Algorithm averaging & shuffling upper matrices"
 
 # Run the MedShufflingUpper for each partition
 for ((i=1; i<=NUM_PARTITIONS; i++)); do
@@ -126,13 +126,13 @@ for ((i=1; i<=NUM_PARTITIONS; i++)); do
     fi
 done
 
-echo "-----> STEP 5.1 COMPLETED!"
+echo "-----> ✅ STEP 6 COMPLETED!"
 
 
 # -------------------------
-# STEP 6: Hierarchical clustering of upper matrices
+# STEP 7: Hierarchical clustering of upper matrices
 # -------------------------
-echo "STEP 6: Hierarchical clustering of upper matrices"
+echo "STEP 7: Hierarchical clustering of upper matrices"
 
 # R script path
 R_SCRIPT="./adjClust_results/classic_hic_script.R"
@@ -153,18 +153,13 @@ for ((i=1; i<=NUM_PARTITIONS; i++)); do
     fi
 done
 
-echo "-----> STEP 6 COMPLETED!"
-
-
-
-
-
+echo "-----> ✅ STEP 7 COMPLETED!"
 
 
 # -------------------------
-# STEP 7: Adjacent clustering of upper matrices
+# STEP 8: Adjacent clustering of upper matrices
 # -------------------------
-echo "STEP 7: Adjacent clustering of upper matrices"
+echo "STEP 8: Adjacent clustering of upper matrices"
 
 # R script path
 R_SCRIPT="./adjClust_results/adjclust_script_upper.R"
@@ -225,17 +220,31 @@ for ((i=1; i<=NUM_PARTITIONS; i++)); do
     fi
 done
 
-echo "-----> STEP 7 COMPLETED!"
-
-
-
+echo "-----> ✅ STEP 8 COMPLETED!"
 
 
 # -------------------------
-# STEP 8: Compute and score metrics for all clustering results
+# STEP 9: Compute and score metrics for all clustering results
 # -------------------------
-echo "STEP 8: Compute and score metrics for all clustering results"
-# TO BE DONE YET
-echo "-----> STEP 8 COMPLETED!"
+echo "STEP 9: Compute and score metrics for all clustering results"
 
-echo "SUCCESS: Pipeline finished ✅"
+OUTPUT_FILE="./Output_final.txt"
+rm -f "$OUTPUT_FILE"
+
+java -cp "$BIN_DIR" pipeline.Main --batch "$NUM_PARTITIONS"
+
+echo "Results written to $OUTPUT_FILE"
+
+echo "-----> ✅ STEP 9 COMPLETED!"
+
+
+echo ""
+echo ""
+echo "✅✅✅ SUCCESS: Pipeline finished"
+
+
+
+
+
+
+

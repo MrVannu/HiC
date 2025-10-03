@@ -4,8 +4,6 @@ if (!requireNamespace("adjclust", quietly = TRUE)) {
 }
 library(adjclust)
 
-<<<<<<< HEAD
-
 # Default input file
 default_input_file <- "../ld_data/outputs/BASE_ld_upper.tsv"
 default_output_file <- "./results/BASE_ld_upper_matrix_cluster_merge.tsv"
@@ -15,11 +13,7 @@ args <- commandArgs(trailingOnly = TRUE)
 input_file <- if (length(args) >= 1) args[1] else default_input_file
 output_file <- if (length(args) >= 2) args[2] else default_output_file
 
-=======
-# Input/output paths
-input_file <- "../ld_data/outputs/BASE_ld_upper.tsv"
-output_merge_file <- "./results/BASE_ld_upper_matrix_cluster_merge.tsv"
->>>>>>> b338905e4c445a3e505dcc59625208fbfa87b1e2
+
 
 # Create results directory if NOT exists
 if (!dir.exists("results")) dir.create("results", recursive = TRUE)
@@ -61,12 +55,7 @@ fit <- adjClust(sim, type = "similarity")
 
 # Save
 merge_df <- as.data.frame(fit$merge)
-<<<<<<< HEAD
+
 write.table(merge_df, output_file, quote = FALSE, col.names = FALSE, row.names = TRUE, sep = "\t")
 
 cat("Clustering completed. Merge saved to:", output_file, "\n")
-=======
-write.table(merge_df, output_merge_file, quote = FALSE, col.names = FALSE, row.names = TRUE, sep = "\t")
-
-cat("Clustering completed. Merge saved to:", output_merge_file, "\n")
->>>>>>> b338905e4c445a3e505dcc59625208fbfa87b1e2

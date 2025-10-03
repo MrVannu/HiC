@@ -1,11 +1,7 @@
 import argparse
 import os
 
-<<<<<<< HEAD
 DEFAULT_PATH = "./partitions/example_1.vcf" 
-=======
-DEFAULT_PATH = "/home/ubulunux/HiC/raw_data/gemma_data/dataset_1/example_1.vcf" 
->>>>>>> b338905e4c445a3e505dcc59625208fbfa87b1e2
 DEFAULT_SIZE = 1000
 DEFAULT_NUM_PARTITIONS = 10
 
