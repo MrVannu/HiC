@@ -59,14 +59,14 @@ public class Main extends TreeHandler {
      */
     private static void runBatchMode(int numPartitions) throws Exception {
         String[] patterns = {
-                "./adjClust_results/results/BASE_ld_upper_matrix_cluster_merge_%d.tsv",
+                "./adjClust_results/results/adjclust_clustering_upper_merge_%d.tsv",
                 "./adjClust_results/results/classic_clustering_upper_merge_%d.tsv",
                 "./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_%d.tsv",
                 "./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_%d.tsv",
                 "./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_%d.tsv"
         };
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Pipeline_Insights.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Output_final.txt"))) {
             writer.write("===== METRIC RESULTS =====\n");
 
             for (int i = 1; i <= numPartitions; i++) {

@@ -109,9 +109,9 @@ echo "-----> ✅ STEP 5 COMPLETED!"
 # -------------------------
 # STEP 6: Genetic Algorithm averaging & shuffling upper matrices
 # -------------------------
-echo "STEP 6: Genetic Algorithm averaging & shuffling upper matrices"
+echo "STEP 6: Genetic Algorithm shuffling upper matrices"
 
-# Run the MedShufflingUpper for each partition
+# Run the genAlgShufflingUpper for each partition
 for ((i=1; i<=NUM_PARTITIONS; i++)); do
     INPUT_FILE="./ld_data/outputs/BASE_ld_upper_${i}.tsv"
     OUTPUT_FILE="./ld_data/outputs/best_order_upper_genAlg_${i}.tsv"
@@ -131,29 +131,8 @@ echo "-----> ✅ STEP 6 COMPLETED!"
 
 # -------------------------
 # STEP 7: Hierarchical clustering of upper matrices
-# -------------------------
-echo "STEP 7: Hierarchical clustering of upper matrices"
-
-# R script path
-R_SCRIPT="./adjClust_results/classic_hic_script.R"
-
-# Output directory
-OUTPUT_DIR="./adjClust_results/results"
-mkdir -p "$OUTPUT_DIR"
-
-for ((i=1; i<=NUM_PARTITIONS; i++)); do
-    INPUT_FILE="./ld_data/outputs/BASE_ld_upper_${i}.tsv"
-    OUTPUT_FILE="$OUTPUT_DIR/classic_clustering_upper_merge_${i}.tsv"
-
-    if [ -f "$INPUT_FILE" ]; then
-        echo "Processing partition $i..."
-        Rscript "$R_SCRIPT" "$INPUT_FILE" "$OUTPUT_FILE"
-    else
-        echo "⚠️  Warning: $INPUT_FILE does not exist, skipping..."
-    fi
-done
-
-echo "-----> ✅ STEP 7 COMPLETED!"
+# ------------------------- 
+# Removed because it is now integrated in STEP 8
 
 
 # -------------------------
@@ -163,19 +142,33 @@ echo "STEP 8: Adjacent clustering of upper matrices"
 
 # R script path
 R_SCRIPT="./adjClust_results/adjclust_script_upper.R"
+R_SCRIPT_CLASSIC="./adjClust_results/classic_hic_script.R"
 
 # Output directory
 OUTPUT_DIR="./adjClust_results/results"
 mkdir -p "$OUTPUT_DIR"
 
-# BASE
+# BASE with adjclust
+for ((i=1; i<=NUM_PARTITIONS; i++)); do
+    INPUT_FILE="./ld_data/outputs/BASE_ld_upper_${i}.tsv"
+    OUTPUT_FILE="$OUTPUT_DIR/adjclust_clustering_upper_merge_${i}.tsv"
+
+    if [ -f "$INPUT_FILE" ]; then
+        echo "Processing partition $i for BASE order..."
+        Rscript "$R_SCRIPT" "$INPUT_FILE" "$OUTPUT_FILE"
+    else
+        echo "⚠️  Warning: $INPUT_FILE does not exist, skipping..."
+    fi
+done
+
+# BASE with hclust (hierarchical clustering)
 for ((i=1; i<=NUM_PARTITIONS; i++)); do
     INPUT_FILE="./ld_data/outputs/BASE_ld_upper_${i}.tsv"
     OUTPUT_FILE="$OUTPUT_DIR/classic_clustering_upper_merge_${i}.tsv"
 
     if [ -f "$INPUT_FILE" ]; then
         echo "Processing partition $i for BASE order..."
-        Rscript "$R_SCRIPT" "$INPUT_FILE" "$OUTPUT_FILE"
+        Rscript "$R_SCRIPT_CLASSIC" "$INPUT_FILE" "$OUTPUT_FILE"
     else
         echo "⚠️  Warning: $INPUT_FILE does not exist, skipping..."
     fi
@@ -213,7 +206,7 @@ for ((i=1; i<=NUM_PARTITIONS; i++)); do
     OUTPUT_FILE="$OUTPUT_DIR/sorted_genAlg_upper_matrix_clusters_merge_${i}.tsv"
 
     if [ -f "$INPUT_FILE" ]; then
-        echo "Processing partition $i for MED order..."
+        echo "Processing partition $i for genAlg order..."
         Rscript "$R_SCRIPT" "$INPUT_FILE" "$OUTPUT_FILE"
     else
         echo "⚠️  Warning: $INPUT_FILE does not exist, skipping..."

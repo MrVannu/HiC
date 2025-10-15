@@ -175,11 +175,6 @@ $RECYCLE.BIN/
 # ====================
 # Huge Dataset Files
 # ====================
-<<<<<<< HEAD
 raw_data/partitions/
+raw_data/partition_1.ld
 ld_data/outputs/
-=======
-raw_data/gemma_data
-raw_data/human_data
-ld_data/outputs
->>>>>>> b338905e4c445a3e505dcc59625208fbfa87b1e2

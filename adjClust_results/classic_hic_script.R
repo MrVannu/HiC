@@ -18,7 +18,7 @@ df <- read.table(input_file, header = TRUE, sep = "\t", stringsAsFactors = FALSE
 df <- df[!is.na(df$BP_A) & !is.na(df$BP_B) & !is.na(df$R2), ]
 
 # Map positions to indices
-positions <- sort(unique(c(df$BP_A, df$BP_B)))
+positions <- unique(c(df$BP_A, df$BP_B))
 pos_to_idx <- setNames(seq_along(positions), positions)
 
 # Build sparse matrix (upper triangular)

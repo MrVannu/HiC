@@ -22,7 +22,7 @@ cat("Reading long-format upper matrix...\n")
 df_long <- read.table(input_file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 
 # Unique positions and map to indices
-nodes <- sort(unique(c(df_long$BP_A, df_long$BP_B)))
+nodes <- unique(c(df_long$BP_A, df_long$BP_B))
 n <- length(nodes)
 node_to_idx <- setNames(seq_len(n), nodes)
 
