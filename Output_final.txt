@@ -1,0 +1,96 @@
+===== METRIC RESULTS =====
+
+--- Partition 1 ---
+File=./adjClust_results/results/adjclust_clustering_upper_merge_1.tsv | type=1 | weighted=0 | Metric=-270.50000
+File=./adjClust_results/results/adjclust_clustering_upper_merge_1.tsv | type=1 | weighted=1 | Metric=-2179.50000
+File=./adjClust_results/results/adjclust_clustering_upper_merge_1.tsv | type=1 | weighted=2 | Metric=-33.59722
+File=./adjClust_results/results/adjclust_clustering_upper_merge_1.tsv | type=2 | weighted=0 | Metric=-286.00000
+File=./adjClust_results/results/adjclust_clustering_upper_merge_1.tsv | type=2 | weighted=1 | Metric=-2319.00000
+File=./adjClust_results/results/adjclust_clustering_upper_merge_1.tsv | type=2 | weighted=2 | Metric=-35.31944
+File=./adjClust_results/results/classic_clustering_upper_merge_1.tsv | type=1 | weighted=0 | Metric=2577.77064
+File=./adjClust_results/results/classic_clustering_upper_merge_1.tsv | type=1 | weighted=1 | Metric=247364.13709
+File=./adjClust_results/results/classic_clustering_upper_merge_1.tsv | type=1 | weighted=2 | Metric=26.94976
+File=./adjClust_results/results/classic_clustering_upper_merge_1.tsv | type=2 | weighted=0 | Metric=168507.00000
+File=./adjClust_results/results/classic_clustering_upper_merge_1.tsv | type=2 | weighted=1 | Metric=17010611.00000
+File=./adjClust_results/results/classic_clustering_upper_merge_1.tsv | type=2 | weighted=2 | Metric=1670.57923
+File=./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_1.tsv | type=1 | weighted=0 | Metric=-595.50000
+File=./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_1.tsv | type=1 | weighted=1 | Metric=-2397.50000
+File=./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_1.tsv | type=1 | weighted=2 | Metric=-148.10000
+File=./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_1.tsv | type=2 | weighted=0 | Metric=-611.00000
+File=./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_1.tsv | type=2 | weighted=1 | Metric=-2475.00000
+File=./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_1.tsv | type=2 | weighted=2 | Metric=-151.20000
+File=./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_1.tsv | type=1 | weighted=0 | Metric=-19.00000
+File=./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_1.tsv | type=1 | weighted=1 | Metric=-335.00000
+File=./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_1.tsv | type=1 | weighted=2 | Metric=-1.07843
+File=./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_1.tsv | type=2 | weighted=0 | Metric=-31.00000
+File=./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_1.tsv | type=2 | weighted=1 | Metric=-551.00000
+File=./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_1.tsv | type=2 | weighted=2 | Metric=-1.74510
+File=./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_1.tsv | type=1 | weighted=0 | Metric=-159.50000
+File=./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_1.tsv | type=1 | weighted=1 | Metric=-2583.50000
+File=./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_1.tsv | type=1 | weighted=2 | Metric=-9.85294
+File=./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_1.tsv | type=2 | weighted=0 | Metric=-191.00000
+File=./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_1.tsv | type=2 | weighted=1 | Metric=-3119.00000
+File=./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_1.tsv | type=2 | weighted=2 | Metric=-11.70588
+
+--- Partition 2 ---
+⚠️ Skipping missing file: ./adjClust_results/results/adjclust_clustering_upper_merge_2.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/classic_clustering_upper_merge_2.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_2.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_2.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_2.tsv
+
+--- Partition 3 ---
+⚠️ Skipping missing file: ./adjClust_results/results/adjclust_clustering_upper_merge_3.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/classic_clustering_upper_merge_3.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_3.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_3.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_3.tsv
+
+--- Partition 4 ---
+⚠️ Skipping missing file: ./adjClust_results/results/adjclust_clustering_upper_merge_4.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/classic_clustering_upper_merge_4.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_4.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_4.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_4.tsv
+
+--- Partition 5 ---
+⚠️ Skipping missing file: ./adjClust_results/results/adjclust_clustering_upper_merge_5.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/classic_clustering_upper_merge_5.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_5.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_5.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_5.tsv
+
+--- Partition 6 ---
+⚠️ Skipping missing file: ./adjClust_results/results/adjclust_clustering_upper_merge_6.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/classic_clustering_upper_merge_6.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_6.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_6.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_6.tsv
+
+--- Partition 7 ---
+⚠️ Skipping missing file: ./adjClust_results/results/adjclust_clustering_upper_merge_7.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/classic_clustering_upper_merge_7.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_7.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_7.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_7.tsv
+
+--- Partition 8 ---
+⚠️ Skipping missing file: ./adjClust_results/results/adjclust_clustering_upper_merge_8.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/classic_clustering_upper_merge_8.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_8.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_8.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_8.tsv
+
+--- Partition 9 ---
+⚠️ Skipping missing file: ./adjClust_results/results/adjclust_clustering_upper_merge_9.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/classic_clustering_upper_merge_9.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_9.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_9.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_9.tsv
+
+--- Partition 10 ---
+⚠️ Skipping missing file: ./adjClust_results/results/adjclust_clustering_upper_merge_10.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/classic_clustering_upper_merge_10.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_avg_upper_matrix_clusters_merge_10.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_med_upper_matrix_clusters_merge_10.tsv
+⚠️ Skipping missing file: ./adjClust_results/results/sorted_genAlg_upper_matrix_clusters_merge_10.tsv
