@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+
 
 # Check for correct number of arguments
 if [ $# -lt 3 ]; then
@@ -19,15 +19,38 @@ echo "🚀 Pipeline started..."
 # STEP 1: Partition VCF
 # -------------------------
 echo "STEP 1: Partitioning of $VCF_FILE"
-python3 raw_data/partition_vcf_Optimized.py "$VCF_FILE" "$PARTITION_SIZE" "$NUM_PARTITIONS"
+python3 ./raw_data/partition_vcf.py "$VCF_FILE" "$PARTITION_SIZE" "$NUM_PARTITIONS"
 echo "-----> ✅ STEP 1 COMPLETED!"
 
 
 # -------------------------
 # STEP 2: Computing LD values
 # -------------------------
-echo "STEP 2: Computing ld values"
-# Use ld_generator.sh here (future work)
+echo "STEP 2: Computing ld values and creatind respective .ld files"
+chmod +x ./raw_data/ld_gen.sh
+
+for ((i=1;i<=NUM_PARTITIONS;i++)); do
+    FILE="./raw_data/partitions/partition_${i}.vcf"
+
+    if [ -f "$FILE" ]; then
+        echo "Computing ld values for file: $FILE"
+        ./raw_data/ld_gen.sh "$FILE"
+    else
+        echo "⚠️  Warning: $FILE not found. Skipping."
+    fi
+done
+
+# Ensure target directory exists
+mkdir -p ./ld_data/datasets
+
+# Move all .ld files from partitions/ to ld_data/datasets/
+echo "Moving .ld files to ld_data/datasets/..."
+mv -f ./raw_data/partitions/*.ld ./ld_data/datasets/ 2>/dev/null
+
+# Delete intermediate PLINK files
+echo "Cleaning up intermediate PLINK files..."
+rm -f ./raw_data/partitions/*.{bed,fam,bim,log,nosex,ped,traw} 2>/dev/null
+
 echo "-----> ✅ STEP 2 COMPLETED!"
 
 

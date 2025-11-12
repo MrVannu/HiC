@@ -5,8 +5,8 @@ import sys
 import os
 
  
-RANDOM_SEED = 121
-random.seed(RANDOM_SEED)
+#RANDOM_SEED = 121
+#random.seed(RANDOM_SEED)
 
 POP_SIZE = 400
 MUT_PROB = 0.2

@@ -1,0 +1,25 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --bfile ././raw_data/partitions/partition_10
+  --const-fid 0
+  --make-bed
+  --out unique_ids
+
+Hostname: VANNU-LAPTOP
+Working directory: /home/ubulunux/HiC
+Start time: Wed Nov 12 13:11:15 2025
+
+Random number seed: 1762949475
+7840 MB RAM detected; reserving 3920 MB for main workspace.
+1000 variants loaded from .bim file.
+58 people (0 males, 0 females, 58 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to unique_ids.nosex .
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 58 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is exactly 1.
+1000 variants and 58 people pass filters and QC.
+Note: No phenotypes present.
+--make-bed to unique_ids.bed + unique_ids.bim + unique_ids.fam ... done.
+
+End time: Wed Nov 12 13:11:15 2025
